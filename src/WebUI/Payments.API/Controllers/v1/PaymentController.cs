@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.DeletePayment;
@@ -8,12 +7,13 @@ using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using System.Threading.Tasks;
 
-namespace Payments.API.Controllers
+namespace Payments.API.Controllers.v1
 {
     /// <summary>
     /// 
     /// </summary>
-    [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class PaymentsController : ApiControllerBase
     {
         /// <summary>

@@ -14,44 +14,73 @@
             
             </summary>
         </member>
-        <member name="T:Payments.API.Controllers.PaymentsController">
+        <member name="T:Payments.API.Controllers.v1.PaymentsController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Payments.API.Controllers.PaymentsController.Get">
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.Get">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.PaymentsController.Get(System.Int64)">
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.Get(System.Int64)">
             <summary>
             
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.PaymentsController.Create(Payments.Application.Payments.Commands.CreatePayment.CreatePaymentCommand)">
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.Create(Payments.Application.Payments.Commands.CreatePayment.CreatePaymentCommand)">
             <summary>
             
             </summary>
             <param name="command"></param>
             <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.PaymentsController.Update(Payments.Application.Payments.Commands.UpdatePayment.UpdatePaymentCommand)">
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.Update(Payments.Application.Payments.Commands.UpdatePayment.UpdatePaymentCommand)">
             <summary>
             
             </summary>
             <param name="command"></param>
             <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.PaymentsController.Delete(Payments.Application.Payments.Commands.DeletePayment.DeletePaymentCommand)">
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.Delete(Payments.Application.Payments.Commands.DeletePayment.DeletePaymentCommand)">
             <summary>
             
             </summary>
             <param name="command"></param>
             <returns></returns>
+        </member>
+        <member name="T:Payments.API.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Payments.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Payments.API.Startup.Configuration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Payments.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Payments.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
         </member>
     </members>
 </doc>
