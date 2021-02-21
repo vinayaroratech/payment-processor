@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.Common.Exceptions;
-using Payments.Application.Common.Interfaces.Contexts;
+using Payments.Application.Common.Interfaces;
 using Payments.Domain.Entities;
 using System.Linq;
 using System.Threading;

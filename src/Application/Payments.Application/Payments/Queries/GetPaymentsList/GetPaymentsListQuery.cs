@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Payments.Application.Common.Interfaces.Contexts;
+using Payments.Application.Common.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 

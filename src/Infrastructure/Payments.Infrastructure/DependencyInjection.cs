@@ -1,9 +1,11 @@
-﻿using Payments.Infrastructure.Identity;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Payments.Application.Common.Interfaces.Contexts;
+using Payments.Application.Common.Interfaces;
+using Payments.Infrastructure.Identity;
+using Payments.Infrastructure.Persistence;
+using Payments.Infrastructure.Services;
 
 namespace Payments.Infrastructure
 {
@@ -25,8 +27,17 @@ namespace Payments.Infrastructure
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddTransient<IDateTime, DateTimeService>();
+
             services.AddScoped<IApplicationDbContext>(provider =>
                 provider.GetService<ApplicationDbContext>());
+
+            return services;
+        }
+
+        public static IServiceCollection AddUserService(this IServiceCollection services)
+        {
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             return services;
         }

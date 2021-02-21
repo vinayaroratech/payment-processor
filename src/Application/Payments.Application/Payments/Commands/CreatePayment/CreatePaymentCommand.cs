@@ -1,4 +1,4 @@
-﻿using Payments.Application.Common.Interfaces.Contexts;
+﻿using Payments.Application.Common.Interfaces;
 using Payments.Domain.Entities;
 using MediatR;
 using System.Threading;

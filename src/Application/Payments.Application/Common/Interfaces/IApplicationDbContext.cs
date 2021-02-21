@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.Common.Interfaces.Contexts
+namespace Payments.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {

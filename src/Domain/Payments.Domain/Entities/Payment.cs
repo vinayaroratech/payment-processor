@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Payments.Domain.Common;
 
 namespace Payments.Domain.Entities
 {
-    public class Payment
+    public class Payment: AuditableEntity
     {
         public long Id { get; set; }
 
