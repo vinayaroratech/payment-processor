@@ -21,7 +21,7 @@ namespace Payments.API.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PaymentsListVm>> GetList()
+        public async Task<ActionResult<PaymentsListVm>> GetAll()
         {
             return await Mediator.Send(new GetPaymentsListQuery());
         }
@@ -55,6 +55,7 @@ namespace Payments.API.Controllers.v1
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
@@ -73,12 +74,12 @@ namespace Payments.API.Controllers.v1
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(DeletePaymentCommand command)
+        public async Task<ActionResult> Delete(long id)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(new DeletePaymentCommand() { Id = id });
 
             return NoContent();
         }

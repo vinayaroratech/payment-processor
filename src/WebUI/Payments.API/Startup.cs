@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,7 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Payments.API.Common;
 using Payments.Application;
+using Payments.Application.Common.Interfaces;
 using Payments.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -25,15 +28,21 @@ namespace Payments.API
         /// 
         /// </summary>
         /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
+        /// <param name="environment"></param>
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         /// <summary>
         /// 
         /// </summary>
         public IConfiguration Configuration { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public IWebHostEnvironment Environment { get; }
 
         /// <summary>
         /// 
@@ -44,12 +53,19 @@ namespace Payments.API
         {
             services.AddUserService()
                 .AddApplication()
-                .AddInfrastructure(Configuration)
-                .AddControllers();
+                .AddInfrastructure(Configuration, Environment)
+                .AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
 
             services.AddHttpContextAccessor();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // Customise default API behaviour
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             #region Swagger
             services.AddSwaggerGen(c =>
@@ -95,6 +111,7 @@ namespace Payments.API
                 app.UseHsts();
             }
 
+            app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
 
             #region Swagger
