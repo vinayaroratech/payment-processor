@@ -1,9 +1,9 @@
-﻿using Payments.Application.Common.Interfaces.Contexts;
+﻿using MediatR;
+using Payments.Application.Common.Exceptions;
+using Payments.Application.Common.Interfaces.Contexts;
 using Payments.Domain.Entities;
-using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Payments.Application.Common.Interfaces.Contexts;
 
 namespace Payments.Application.Payments.Commands.DeletePayment
 {
@@ -24,7 +24,10 @@ namespace Payments.Application.Payments.Commands.DeletePayment
             {
                 var entity = await _context.Payments.FindAsync(request.Id);
 
-                // TODO: Check for Null
+                if (entity == null)
+                {
+                    throw new NotFoundException(nameof(Payment), request.Id);
+                }
 
                 _context.Payments.Remove(entity);
 

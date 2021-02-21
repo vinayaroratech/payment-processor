@@ -2,7 +2,9 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Payments.Application.Common.Exceptions;
 using Payments.Application.Common.Interfaces.Contexts;
+using Payments.Domain.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +33,10 @@ namespace Payments.Application.Payments.Queries.GetPayment
                     .ProjectTo<PaymentVm>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(cancellationToken);
 
-                // TODO: Check for null
+                if (vm == null)
+                {
+                    throw new NotFoundException(nameof(Payment), request.Id);
+                }
 
                 return vm;
             }

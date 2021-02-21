@@ -1,9 +1,9 @@
-﻿using Payments.Application.Common.Interfaces.Contexts;
+﻿using MediatR;
+using Payments.Application.Common.Exceptions;
+using Payments.Application.Common.Interfaces.Contexts;
 using Payments.Domain.Entities;
-using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Payments.Application.Common.Interfaces.Contexts;
 
 namespace Payments.Application.Payments.Commands.UpdatePayment
 {
@@ -28,7 +28,10 @@ namespace Payments.Application.Payments.Commands.UpdatePayment
             {
                 var entity = await _context.Payments.FindAsync(request.Id);
 
-                // TODO: Check for null
+                if (entity == null)
+                {
+                    throw new NotFoundException(nameof(Payment), request.Id);
+                }
 
                 entity.Name = request.Name;
                 entity.IsComplete = request.IsComplete;
