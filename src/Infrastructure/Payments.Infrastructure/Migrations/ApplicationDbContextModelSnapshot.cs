@@ -236,7 +236,7 @@ namespace Payments.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Payments.Domain.Payment", b =>
+            modelBuilder.Entity("Payments.Domain.Entities.Payment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,7 +251,7 @@ namespace Payments.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Payments.Infrastructure.Identity.ApplicationUser", b =>

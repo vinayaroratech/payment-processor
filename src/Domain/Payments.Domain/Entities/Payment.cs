@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Payments.Domain
+namespace Payments.Domain.Entities
 {
     public class Payment
     {

@@ -10,7 +10,7 @@ using Payments.Infrastructure.Identity;
 namespace Payments.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210221153700_Initial")]
+    [Migration("20210221171943_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,7 +238,7 @@ namespace Payments.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Payments.Domain.Payment", b =>
+            modelBuilder.Entity("Payments.Domain.Entities.Payment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -253,7 +253,7 @@ namespace Payments.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Payments.Infrastructure.Identity.ApplicationUser", b =>

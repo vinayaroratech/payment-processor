@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Payments.Application.Interfaces.Contexts;
+using Payments.Application.Common.Interfaces.Contexts;
 
 namespace Payments.Infrastructure
 {

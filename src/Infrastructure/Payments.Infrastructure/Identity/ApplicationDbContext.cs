@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Payments.Application.Interfaces.Contexts;
-using Payments.Domain;
+using Payments.Application.Common.Interfaces.Contexts;
+using Payments.Domain.Entities;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace Payments.Infrastructure.Identity
         {
         }
 
-        public DbSet<Payment> Products { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         public IDbConnection Connection => throw new System.NotImplementedException();
 

@@ -1,27 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Payments.Application.Payments.Commands.CreatePayment;
+using Payments.Application.Payments.Commands.DeletePayment;
+using Payments.Application.Payments.Commands.UpdatePayment;
+using Payments.Application.Payments.Queries.GetPayment;
+using Payments.Application.Payments.Queries.GetPaymentsList;
+using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace Payments.API.Controllers.v1
+namespace Payments.API.Controllers
 {
     /// <summary>
     /// 
     /// </summary>
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [ApiController]
-    public class PaymentController : ControllerBase
+    [Authorize]
+    public class PaymentsController : ApiControllerBase
     {
-        // GET: api/<PaymentController>
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<PaymentsListVm>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await Mediator.Send(new GetPaymentsListQuery());
         }
 
         /// <summary>
@@ -29,47 +31,55 @@ namespace Payments.API.Controllers.v1
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // GET api/<PaymentController>/5
-        [Route("{id}")]
-        [HttpGet]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PaymentVm>> Get(long id)
         {
-            return "value";
+            return await Mediator.Send(new GetPaymentQuery { Id = id });
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
-        // POST api/<PaymentController>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<long>> Create(CreatePaymentCommand command)
         {
-        }
+            var id = await Mediator.Send(command);
 
+            return Created(nameof(Get), id);
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="value"></param>
-        // PUT api/<PaymentController>/5
-        [Route("{id}")]
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPut]
-        public void Put(int id, [FromBody] string value)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update(UpdatePaymentCommand command)
         {
-        }
+            await Mediator.Send(command);
 
+            return NoContent();
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
-        // DELETE api/<PaymentController>/5
-        [Route("{id}")]
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpDelete]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete(DeletePaymentCommand command)
         {
+            await Mediator.Send(command);
+
+            return NoContent();
         }
     }
 }

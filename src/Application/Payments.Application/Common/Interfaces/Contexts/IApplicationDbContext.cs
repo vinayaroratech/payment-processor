@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Payments.Domain;
+using Payments.Domain.Entities;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.Interfaces.Contexts
+namespace Payments.Application.Common.Interfaces.Contexts
 {
     public interface IApplicationDbContext
     {
@@ -16,6 +16,6 @@ namespace Payments.Application.Interfaces.Contexts
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
-        DbSet<Payment> Products { get; set; }
+        DbSet<Payment> Payments { get; set; }
     }
 }

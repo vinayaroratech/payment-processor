@@ -64,6 +64,20 @@ namespace Payments.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    IsComplete = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PersistedGrants",
                 columns: table => new
                 {
@@ -78,20 +92,6 @@ namespace Payments.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersistedGrants", x => x.Key);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    IsComplete = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,10 +282,10 @@ namespace Payments.Infrastructure.Migrations
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
-                name: "PersistedGrants");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "PersistedGrants");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

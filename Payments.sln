@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.API", "src\WebUI\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Infrastructure", "src\Infrastructure\Payments.Infrastructure\Payments.Infrastructure.csproj", "{4F59E28B-8AA4-472D-9C3F-65D40D862B1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Application.UnitTests", "tests\Payments.Application.UnitTests\Payments.Application.UnitTests\Payments.Application.UnitTests.csproj", "{DF8C9184-E6DF-4800-ACCB-9C911CF721DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{4F59E28B-8AA4-472D-9C3F-65D40D862B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F59E28B-8AA4-472D-9C3F-65D40D862B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F59E28B-8AA4-472D-9C3F-65D40D862B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF8C9184-E6DF-4800-ACCB-9C911CF721DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF8C9184-E6DF-4800-ACCB-9C911CF721DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF8C9184-E6DF-4800-ACCB-9C911CF721DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF8C9184-E6DF-4800-ACCB-9C911CF721DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{73868B33-29E2-42BE-9F14-7317A50FA5A3} = {9BE26C82-3FB6-4853-BDB3-8806FA766D4A}
 		{D714528B-B39F-4021-B662-FEBB2E0DB810} = {7E7753F7-2A82-447A-9B1A-16412CD7F1A2}
 		{4F59E28B-8AA4-472D-9C3F-65D40D862B1A} = {93838665-C7AC-4183-BCAE-563410C7FEBC}
+		{DF8C9184-E6DF-4800-ACCB-9C911CF721DA} = {1A96BAED-27AE-4E69-B58B-72FA71947653}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {118F0E7C-920D-4F81-A4E7-D3FB4859BE7C}

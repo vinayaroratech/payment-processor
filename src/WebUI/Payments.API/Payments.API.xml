@@ -4,42 +4,54 @@
         <name>Payments.API</name>
     </assembly>
     <members>
-        <member name="T:Payments.API.Controllers.v1.PaymentController">
+        <member name="T:Payments.API.Controllers.ApiControllerBase">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Payments.API.Controllers.v1.PaymentController.Get">
+        <member name="P:Payments.API.Controllers.ApiControllerBase.Mediator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Payments.API.Controllers.PaymentsController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Payments.API.Controllers.PaymentsController.Get">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.v1.PaymentController.Get(System.Int32)">
+        <member name="M:Payments.API.Controllers.PaymentsController.Get(System.Int64)">
             <summary>
             
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.v1.PaymentController.Post(System.String)">
+        <member name="M:Payments.API.Controllers.PaymentsController.Create(Payments.Application.Payments.Commands.CreatePayment.CreatePaymentCommand)">
             <summary>
             
             </summary>
-            <param name="value"></param>
+            <param name="command"></param>
+            <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.v1.PaymentController.Put(System.Int32,System.String)">
+        <member name="M:Payments.API.Controllers.PaymentsController.Update(Payments.Application.Payments.Commands.UpdatePayment.UpdatePaymentCommand)">
             <summary>
             
             </summary>
-            <param name="id"></param>
-            <param name="value"></param>
+            <param name="command"></param>
+            <returns></returns>
         </member>
-        <member name="M:Payments.API.Controllers.v1.PaymentController.Delete(System.Int32)">
+        <member name="M:Payments.API.Controllers.PaymentsController.Delete(Payments.Application.Payments.Commands.DeletePayment.DeletePaymentCommand)">
             <summary>
             
             </summary>
-            <param name="id"></param>
+            <param name="command"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
