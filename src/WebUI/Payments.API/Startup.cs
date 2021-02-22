@@ -1,22 +1,14 @@
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Payments.API.Common;
 using Payments.Application;
-using Payments.Application.Common.Interfaces;
 using Payments.Infrastructure;
 using Payments.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Payments.API
 {
@@ -55,8 +47,7 @@ namespace Payments.API
             services.AddUserService()
                 .AddApplication()
                 .AddInfrastructure(Configuration, Environment)
-                .AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
+                .AddControllers();
 
             services.AddHttpContextAccessor();
 
