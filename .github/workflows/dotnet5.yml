@@ -2,9 +2,9 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -19,4 +19,5 @@ jobs:
         dotnet-version: '5.0.103'
     - name: Build with dotnet
       run: dotnet build --configuration Release
+    - name: Run Tests
       run: dotnet test
