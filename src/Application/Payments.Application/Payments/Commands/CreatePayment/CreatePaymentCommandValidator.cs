@@ -2,9 +2,9 @@
 
 namespace Payments.Application.Payments.Commands.CreatePayment
 {
-    public class CreateTodoItemCommandValidator : AbstractValidator<CreatePaymentCommand>
+    public class CreatePaymentCommandValidator : AbstractValidator<CreatePaymentCommand>
     {
-        public CreateTodoItemCommandValidator()
+        public CreatePaymentCommandValidator()
         {
             RuleFor(v => v.Name)
                 .MaximumLength(200)

@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Application\Payments.Application\Payments.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Infrastructure\Payments.Infrastructure\Payments.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
