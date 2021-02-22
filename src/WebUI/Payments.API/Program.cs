@@ -33,11 +33,15 @@ namespace Payments.API
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    context.Database.Migrate();
+
+                    if (context.Database.IsSqlServer())
+                    {
+                        context.Database.Migrate();
+                    }
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-                    await ApplicationDbContextSeed.SeedAsync(userManager);
+                    await ApplicationDbContextSeed.SeedAsync(context, userManager);
                 }
                 catch (Exception ex)
                 {
