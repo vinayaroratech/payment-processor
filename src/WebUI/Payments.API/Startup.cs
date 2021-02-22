@@ -12,6 +12,7 @@ using Payments.API.Common;
 using Payments.Application;
 using Payments.Application.Common.Interfaces;
 using Payments.Infrastructure;
+using Payments.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,9 @@ namespace Payments.API
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
 
             services.AddHttpContextAccessor();
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -112,6 +116,7 @@ namespace Payments.API
             }
 
             app.UseCustomExceptionHandler();
+            app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
 
             #region Swagger

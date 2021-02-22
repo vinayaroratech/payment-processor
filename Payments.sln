@@ -37,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payments.API.IntegrationTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.IntegrationTests", "Infrastructure.IntegrationTests", "{51E10328-55D8-499F-9FB7-B92B5F321C72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Infrastructure.IntegrationTests", "tests\Infrastructure.IntegrationTests\Payments.Infrastructure.IntegrationTests\Payments.Infrastructure.IntegrationTests.csproj", "{F96C5CBF-5490-4D05-B74E-341B1D1CE0A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payments.Infrastructure.IntegrationTests", "tests\Infrastructure.IntegrationTests\Payments.Infrastructure.IntegrationTests\Payments.Infrastructure.IntegrationTests.csproj", "{F96C5CBF-5490-4D05-B74E-341B1D1CE0A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Domain.UnitTests", "tests\Domain.UnitTests\Payments.Domain.UnitTests\Payments.Domain.UnitTests.csproj", "{0EDFAA11-3FA6-41D7-B6A5-38C03CA7E368}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{F96C5CBF-5490-4D05-B74E-341B1D1CE0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F96C5CBF-5490-4D05-B74E-341B1D1CE0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F96C5CBF-5490-4D05-B74E-341B1D1CE0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EDFAA11-3FA6-41D7-B6A5-38C03CA7E368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDFAA11-3FA6-41D7-B6A5-38C03CA7E368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDFAA11-3FA6-41D7-B6A5-38C03CA7E368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EDFAA11-3FA6-41D7-B6A5-38C03CA7E368}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{36265B53-376F-4503-A571-79421FF8E2CB} = {C22EE32D-8C7A-4EF9-9E83-87A4651B0332}
 		{51E10328-55D8-499F-9FB7-B92B5F321C72} = {3D7C3200-2294-4812-96F2-7709683854A7}
 		{F96C5CBF-5490-4D05-B74E-341B1D1CE0A9} = {51E10328-55D8-499F-9FB7-B92B5F321C72}
+		{0EDFAA11-3FA6-41D7-B6A5-38C03CA7E368} = {E5261CB1-C797-48D5-9238-612525A255E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {118F0E7C-920D-4F81-A4E7-D3FB4859BE7C}
