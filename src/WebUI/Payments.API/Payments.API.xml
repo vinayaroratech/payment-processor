@@ -84,6 +84,25 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:Payments.API.Program">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Payments.API.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payments.API.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:Payments.API.Startup">
             <summary>
             

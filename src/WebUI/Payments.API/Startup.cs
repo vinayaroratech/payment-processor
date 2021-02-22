@@ -127,7 +127,7 @@ namespace Payments.API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
 

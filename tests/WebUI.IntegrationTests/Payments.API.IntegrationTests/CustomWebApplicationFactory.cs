@@ -37,6 +37,7 @@ namespace Payments.API.IntegrationTests
 
                     services.AddScoped<ICurrentUserService, TestCurrentUserService>();
                     services.AddScoped<IDateTime, TestDateTimeService>();
+                    services.AddScoped<IIdentityService, TestIdentityService>();
 
                     var sp = services.BuildServiceProvider();
 
@@ -68,7 +69,7 @@ namespace Payments.API.IntegrationTests
 
         public async Task<HttpClient> GetAuthenticatedClientAsync()
         {
-            return await GetAuthenticatedClientAsync("vinay@arora", "Payments!");
+            return await GetAuthenticatedClientAsync("vinay@arora", "Administrator1!");
         }
 
         public async Task<HttpClient> GetAuthenticatedClientAsync(string userName, string password)
@@ -97,14 +98,14 @@ namespace Payments.API.IntegrationTests
                 ClientId = "Payments.IntegrationTests",
                 ClientSecret = "secret",
 
-                Scope = "Payments.WebUIAPI openid profile",
+                Scope = "Payments.API openid profile",
                 UserName = userName,
                 Password = password
             });
 
             if (response.IsError)
             {
-               // throw new Exception(response.Error);
+                throw new Exception(response.Error);
             }
 
             return response.AccessToken;
@@ -121,15 +122,5 @@ namespace Payments.API.IntegrationTests
 
             context.SaveChanges();
         }
-    }
-
-    public class TestCurrentUserService : ICurrentUserService
-    {
-        public string UserId => "f26da293-02fb-4c90-be75-e4aa51e0bb17";
-    }
-
-    public class TestDateTimeService : IDateTime
-    {
-        public DateTime Now => DateTime.Now;
     }
 }
