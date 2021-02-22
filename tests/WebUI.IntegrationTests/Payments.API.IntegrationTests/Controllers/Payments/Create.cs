@@ -24,7 +24,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var command = new CreatePaymentCommand
             {
-                Name = "Do yet another thing."
+                Name = $"Do yet another thing - {System.DateTime.Now.Ticks}."
             };
 
             var content = IntegrationTestHelper.GetRequestContent(command);
@@ -45,6 +45,23 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
             var command = new CreatePaymentCommand
             {
                 Name = "This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length."
+            };
+
+            var content = IntegrationTestHelper.GetRequestContent(command);
+
+            var response = await client.PostAsync(_paymentBaseUri, content);
+
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task GivenDuplicateCreatePaymentCommand_ReturnsBadRequest()
+        {
+            var client = await _factory.GetAuthenticatedClientAsync();
+
+            var command = new CreatePaymentCommand
+            {
+                Name = "Do this thing."
             };
 
             var content = IntegrationTestHelper.GetRequestContent(command);

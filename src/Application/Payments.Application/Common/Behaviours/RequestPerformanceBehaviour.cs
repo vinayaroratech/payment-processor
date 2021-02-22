@@ -46,7 +46,7 @@ namespace Payments.Application.Common.Behaviours
                 var userId = _currentUserService.UserId;
                 var userName = await _identityService.GetUserNameAsync(userId);
 
-                _logger.LogWarning("CleanArchitecture Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
+                _logger.LogWarning("Payment-Processor Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
                     requestName, elapsedMilliseconds, userId, userName, request);
             }
 

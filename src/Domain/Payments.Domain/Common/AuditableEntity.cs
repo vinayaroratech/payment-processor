@@ -2,7 +2,7 @@
 
 namespace Payments.Domain.Common
 {
-    public class AuditableEntity
+    public abstract class AuditableEntity
     {
         public string CreatedBy { get; set; }
 

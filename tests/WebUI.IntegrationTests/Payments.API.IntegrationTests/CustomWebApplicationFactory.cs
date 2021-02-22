@@ -8,6 +8,7 @@ using Payments.Application.Common.Interfaces;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Persistence;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -20,20 +21,20 @@ namespace Payments.API.IntegrationTests
             builder
                 .ConfigureServices(services =>
                 {
-                    // Create a new service provider.
-                    var serviceProvider = new ServiceCollection()
-                        .AddEntityFrameworkInMemoryDatabase()
-                        .BuildServiceProvider();
+                    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+
+                    if (descriptor != null)
+                    {
+                        services.Remove(descriptor);
+                    }
 
                     // Add a database context using an in-memory 
                     // database for testing.
                     services.AddDbContext<ApplicationDbContext>(options =>
-                    {
-                        options.UseInMemoryDatabase("InMemoryDbForTesting");
-                        options.UseInternalServiceProvider(serviceProvider);
-                    });
+                            {
+                                options.UseInMemoryDatabase("InMemoryDbForTesting");
+                            });
 
-                    services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
                     services.AddScoped<ICurrentUserService, TestCurrentUserService>();
                     services.AddScoped<IDateTime, TestDateTimeService>();
@@ -52,11 +53,12 @@ namespace Payments.API.IntegrationTests
 
                     try
                     {
+                        // Seed the database with test data.
                         SeedSampleData(context);
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(ex, $"An error occurred seeding the database with sample data. Error: {ex.Message}.");
+                        logger.LogError(ex, "An error occurred seeding the database with test messages. Error: {Message}", ex.Message);
                     }
                 })
                 .UseEnvironment("Test");

@@ -25,7 +25,7 @@ namespace Payments.Application.Common.Behaviours
             var userId = _currentUserService.UserId;
             var userName = await _identityService.GetUserNameAsync(userId);
 
-            _logger.LogInformation("CleanArchitecture Request: {Name} {@UserId} {@UserName} {@Request}",
+            _logger.LogInformation("Payment-Processor Request: {Name} {@UserId} {@UserName} {@Request}",
                 requestName, userId, userName, request);
         }
     }
