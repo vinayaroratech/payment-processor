@@ -18,7 +18,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.DeletePayment
                 Id = 1
             };
 
-            var sut = new DeletePaymentCommand.DeletePaymentCommandHandler(Context);
+            var sut = new DeletePaymentCommandHandler(Context);
 
             await sut.Handle(command, CancellationToken.None);
 
@@ -35,7 +35,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.DeletePayment
                 Id = 99
             };
 
-            var sut = new DeletePaymentCommand.DeletePaymentCommandHandler(Context);
+            var sut = new DeletePaymentCommandHandler(Context);
 
             Should.ThrowAsync<NotFoundException>(() =>
                 sut.Handle(command, CancellationToken.None));

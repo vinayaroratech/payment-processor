@@ -24,7 +24,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPaymentsList
         [Fact]
         public async Task Handle_ReturnsCorrectVmAndTPaymentsCount()
         {
-            var sut = new GetPaymentsListQuery.GetPaymentsListQueryHandler(_context, _mapper);
+            var sut = new GetPaymentsListQueryHandler(_context, _mapper);
 
             var result = await sut.Handle(new GetPaymentsListQuery(), CancellationToken.None);
 

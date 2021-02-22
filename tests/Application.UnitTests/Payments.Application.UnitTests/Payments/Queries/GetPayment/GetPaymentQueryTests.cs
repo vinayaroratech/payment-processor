@@ -30,7 +30,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
                 Id = 1
             };
 
-            var sut = new GetPaymentQuery.GetPaymentQueryHandler(_context, _mapper);
+            var sut = new GetPaymentQueryHandler(_context, _mapper);
 
             var result = await sut.Handle(query, CancellationToken.None);
 
@@ -46,7 +46,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
                 Id = 99
             };
 
-            var sut = new GetPaymentQuery.GetPaymentQueryHandler(_context, _mapper);
+            var sut = new GetPaymentQueryHandler(_context, _mapper);
 
             Should.ThrowAsync<NotFoundException>(() =>
                 sut.Handle(query, CancellationToken.None));

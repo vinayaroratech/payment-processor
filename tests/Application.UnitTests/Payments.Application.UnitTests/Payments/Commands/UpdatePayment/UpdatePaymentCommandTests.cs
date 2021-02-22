@@ -20,7 +20,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.UpdatePayment
                 IsComplete = true
             };
 
-            var sut = new UpdatePaymentCommand.UpdatePaymentCommandHandler(Context);
+            var sut = new UpdatePaymentCommandHandler(Context);
 
             await sut.Handle(command, CancellationToken.None);
 
@@ -41,7 +41,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.UpdatePayment
                 IsComplete = false
             };
 
-            var sut = new UpdatePaymentCommand.UpdatePaymentCommandHandler(Context);
+            var sut = new UpdatePaymentCommandHandler(Context);
 
             Should.ThrowAsync<NotFoundException>(() =>
                 sut.Handle(command, CancellationToken.None));

@@ -17,7 +17,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.CreatePayment
                 Name = "Do yet another thing."
             };
 
-            var sut = new CreatePaymentCommand.CreatePaymentCommandHandler(Context);
+            var sut = new CreatePaymentCommandHandler(Context);
 
             var result = await sut.Handle(command, CancellationToken.None);
 
