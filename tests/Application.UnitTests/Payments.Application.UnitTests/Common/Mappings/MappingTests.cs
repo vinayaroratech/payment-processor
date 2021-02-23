@@ -5,6 +5,7 @@ using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using Payments.Domain.Entities;
 using System;
+using System.Runtime.Serialization;
 
 namespace Payments.Application.UnitTests.Common.Mappings
 {
@@ -34,18 +35,18 @@ namespace Payments.Application.UnitTests.Common.Mappings
         [TestCase(typeof(Payment), typeof(PaymentVm))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
-            object instance;
-            try
-            {
-                instance = Activator.CreateInstance(source);
-            }
-            catch (MissingMethodException)
-            {
-                instance = System.Runtime.Serialization.FormatterServices
-                    .GetUninitializedObject(source);
-            }
+            var instance = GetInstanceOf(source);
 
             _mapper.Map(instance, source, destination);
+        }
+
+        private object GetInstanceOf(Type type)
+        {
+            if (type.GetConstructor(Type.EmptyTypes) != null)
+                return Activator.CreateInstance(type);
+
+            // Type without parameterless constructor
+            return FormatterServices.GetUninitializedObject(type);
         }
     }
 }

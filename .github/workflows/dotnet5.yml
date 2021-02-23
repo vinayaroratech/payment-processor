@@ -21,5 +21,3 @@ jobs:
       run: dotnet tool install --global dotnet-ef
     - name: Build with dotnet
       run: dotnet build --configuration Release
-    - name: Run Tests
-      run: dotnet test

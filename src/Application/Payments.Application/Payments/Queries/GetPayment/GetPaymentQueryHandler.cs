@@ -25,6 +25,7 @@ namespace Payments.Application.Payments.Queries.GetPayment
         public async Task<PaymentVm> Handle(GetPaymentQuery request, CancellationToken cancellationToken)
         {
             var vm = await _context.Payments
+                .AsNoTracking()
                 .Where(t => t.Id == request.Id)
                 .ProjectTo<PaymentVm>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);

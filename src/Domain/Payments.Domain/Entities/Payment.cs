@@ -1,10 +1,11 @@
 ﻿using Payments.Domain.Common;
 using Payments.Domain.Events;
+using Payments.Domain.ValueObjects;
 using System.Collections.Generic;
 
 namespace Payments.Domain.Entities
 {
-    public class Payment: AuditableEntity, IHasDomainEvent
+    public class Payment : AuditableEntity, IHasDomainEvent
     {
         private bool _done;
 
@@ -30,6 +31,8 @@ namespace Payments.Domain.Entities
                 _done = value;
             }
         }
+
+        public Status Status { get; set; } = Status.Pending;
 
     }
 }

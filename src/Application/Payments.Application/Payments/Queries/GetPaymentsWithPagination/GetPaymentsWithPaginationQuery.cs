@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Payments.Application.Common.Interfaces;
 using Payments.Application.Common.Mappings;
 using Payments.Application.Common.Models;
@@ -30,6 +31,7 @@ namespace Payments.Application.Payments.Queries.GetPaymentsWithPagination
         public async Task<PaginationResponse<PaymentDto>> Handle(GetPaymentsWithPaginationQuery request, CancellationToken cancellationToken)
         {
             PaginatedList<PaymentDto> list = await _context.Payments
+                .AsNoTracking()
                 .Where(x => x.Name.Contains(request.SearchText))
                 .OrderBy(x => x.Name)
                 .ProjectTo<PaymentDto>(_mapper.ConfigurationProvider)

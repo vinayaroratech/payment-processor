@@ -21,5 +21,15 @@ namespace Payments.API.IntegrationTests
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> IsInRoleAsync(string userId, string role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AuthorizeAsync(string userId, string policyName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

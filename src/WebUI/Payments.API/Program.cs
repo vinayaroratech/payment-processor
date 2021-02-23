@@ -40,9 +40,9 @@ namespace Payments.API
                     }
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await ApplicationDbContextSeed.SeedSampleDataAsync(context);
-                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
+                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

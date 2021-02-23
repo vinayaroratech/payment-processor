@@ -22,6 +22,7 @@ namespace Payments.Application.Payments.Queries.GetPaymentsList
         public async Task<PaymentsListVm> Handle(GetPaymentsListQuery request, CancellationToken cancellationToken)
         {
             var items = await _context.Payments
+                .AsNoTracking()
                 .ProjectTo<PaymentDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
