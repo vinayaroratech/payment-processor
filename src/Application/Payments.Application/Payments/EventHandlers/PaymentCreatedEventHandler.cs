@@ -2,10 +2,12 @@
 using Microsoft.Extensions.Logging;
 using Payments.Application.Common.Models;
 using Payments.Domain.Events;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Payments.Application.Payments.EventHandlers
 {
-    public class PaymentCreatedEventHandler : NotificationHandler<DomainEventNotification<PaymentCreatedEvent>>
+    public class PaymentCreatedEventHandler : INotificationHandler<DomainEventNotification<PaymentCreatedEvent>>
     {
         private readonly ILogger<PaymentCreatedEventHandler> _logger;
 
@@ -14,10 +16,12 @@ namespace Payments.Application.Payments.EventHandlers
             _logger = logger;
         }
 
-        protected override void Handle(DomainEventNotification<PaymentCreatedEvent> notification)
+        public Task Handle(DomainEventNotification<PaymentCreatedEvent> notification, CancellationToken cancellationToken)
         {
             var domainEvent = notification.DomainEvent;
             _logger.LogInformation("Domain event - {domainEvent} handler called", domainEvent.GetType().Name);
+
+            return Task.CompletedTask;
         }
     }
 }

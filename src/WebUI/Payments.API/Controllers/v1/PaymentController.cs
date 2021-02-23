@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Payments.Application.Common.Models;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.DeletePayment;
 using Payments.Application.Payments.Commands.UpdatePayment;
 using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.Payments.Queries.GetPaymentsList;
+using Payments.Application.Payments.Queries.GetPaymentsWithPagination;
 using System.Threading.Tasks;
 
 namespace Payments.API.Controllers.v1
@@ -17,6 +18,17 @@ namespace Payments.API.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PaymentsController : ApiControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet("pagination")]
+        public async Task<ActionResult<PaginationResponse<PaymentDto>>> GetPaymentsWithPagination([FromQuery]GetPaymentsWithPaginationQuery query)
+        {
+            return await Mediator.Send(query);
+        }
+
         /// <summary>
         /// 
         /// </summary>

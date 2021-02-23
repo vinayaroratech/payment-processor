@@ -28,7 +28,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPaymentsList
         }
 
         [Test]
-        public async Task Handle_ReturnsCorrectVmAndTPaymentsCount()
+        public async Task Handle_ReturnsCorrectVmAndPaymentsCount()
         {
             var sut = new GetPaymentsListQueryHandler(_context, _mapper);
 

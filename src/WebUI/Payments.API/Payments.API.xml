@@ -49,6 +49,13 @@
             
             </summary>
         </member>
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.GetPaymentsWithPagination(Payments.Application.Payments.Queries.GetPaymentsWithPagination.GetPaymentsWithPaginationQuery)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.GetAll">
             <summary>
             
