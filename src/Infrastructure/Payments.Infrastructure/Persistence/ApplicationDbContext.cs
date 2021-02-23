@@ -114,22 +114,23 @@ namespace Payments.Infrastructure.Persistence
                 }
             }
 
-            int result = await base.SaveChangesAsync(cancellationToken);
+            var result = await base.SaveChangesAsync(cancellationToken);
 
-            await DispatchEvents(cancellationToken);
+            await DispatchEvents();
 
             return result;
         }
 
-        private async Task DispatchEvents(CancellationToken cancellationToken)
+        private async Task DispatchEvents()
         {
             var domainEventEntities = ChangeTracker.Entries<IHasDomainEvent>()
                 .Select(x => x.Entity.DomainEvents)
                 .SelectMany(x => x)
-                .ToArray();
+                .Where(domainEvent => !domainEvent.IsPublished);
 
             foreach (var domainEvent in domainEventEntities)
             {
+                domainEvent.IsPublished = true;
                 await _domainEventService.Publish(domainEvent);
             }
         }
