@@ -1,11 +1,11 @@
 ﻿using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
 using Payments.Application.Common.Behaviours;
 using Payments.Application.Common.Interfaces;
 using Payments.Application.Payments.Commands.CreatePayment;
 using System.Threading;
-using Xunit;
 
 namespace Payments.Application.UnitTests.Common.Behaviours
 {
@@ -13,11 +13,7 @@ namespace Payments.Application.UnitTests.Common.Behaviours
     {
         private const string UserId = "vinay";
 
-        public BehaviourTests()
-        {
-        }
-
-        [Fact]
+        [Test]
         public void RequestLogger_Should_Call_GetUserNameAsync_Once_If_Authenticated()
         {
             var logger = new Mock<ILogger<CreatePaymentCommand>>();
@@ -34,7 +30,7 @@ namespace Payments.Application.UnitTests.Common.Behaviours
         }
 
 
-        [Fact]
+        [Test]
         public void RequestLogger_Should_Not_Call_GetUserNameAsync_Once_If_Unauthenticated()
         {
             var logger = new Mock<ILogger<CreatePaymentCommand>>();

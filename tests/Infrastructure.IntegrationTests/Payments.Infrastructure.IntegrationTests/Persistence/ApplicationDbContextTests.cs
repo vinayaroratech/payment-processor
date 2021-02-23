@@ -1,14 +1,14 @@
-﻿using IdentityServer4.EntityFramework.Options;
+﻿using FluentAssertions;
+using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
+using NUnit.Framework;
 using Payments.Application.Common.Interfaces;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Persistence;
-using Shouldly;
 using System;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Payments.Infrastructure.IntegrationTests.Persistence
 {
@@ -52,7 +52,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
             _sut.SaveChanges();
         }
 
-        [Fact]
+        [Test]
         public async Task SaveChangesAsync_GivenNewProduct_ShouldSetCreatedProperties()
         {
             var payment = new Payment
@@ -66,11 +66,11 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
 
             await _sut.SaveChangesAsync();
 
-            payment.Created.ShouldBe(_dateTime);
-            payment.CreatedBy.ShouldBe(_userId);
+            payment.Created.Should().Be(_dateTime);
+            payment.CreatedBy.Should().Be(_userId);
         }
 
-        [Fact]
+        [Test]
         public async Task SaveChangesAsync_GivenExistingProduct_ShouldSetLastModifiedProperties()
         {
             long id = 1;
@@ -81,9 +81,9 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
 
             await _sut.SaveChangesAsync();
 
-            product.LastModified.ShouldNotBeNull();
-            product.LastModified.ShouldBe(_dateTime);
-            product.LastModifiedBy.ShouldBe(_userId);
+            product.LastModified.Should().NotBeNull();
+            product.LastModified.Should().Be(_dateTime);
+            product.LastModifiedBy.Should().Be(_userId);
         }
 
         public void Dispose()

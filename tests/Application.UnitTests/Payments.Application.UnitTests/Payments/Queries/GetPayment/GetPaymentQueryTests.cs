@@ -1,28 +1,34 @@
 ﻿using AutoMapper;
+using FluentAssertions;
+using NUnit.Framework;
 using Payments.Application.Common.Exceptions;
+using Payments.Application.Common.Mappings;
 using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.UnitTests.Common;
 using Payments.Infrastructure.Persistence;
-using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
 {
-    [Collection("QueryCollection")]
     public class GetPaymentQueryTests
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfigurationProvider _configuration;
         private readonly IMapper _mapper;
 
-        public GetPaymentQueryTests(QueryTestFixture fixture)
+        public GetPaymentQueryTests()
         {
-            _context = fixture.Context;
-            _mapper = fixture.Mapper;
+            _configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
+            _context = ApplicationDbContextFactory.Create();
+            _mapper = _configuration.CreateMapper();
         }
 
-        [Fact]
+        [Test]
         public async Task Handle_GivenValidId_ReturnsCorrectVm()
         {
             var query = new GetPaymentQuery
@@ -34,11 +40,11 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
 
             var result = await sut.Handle(query, CancellationToken.None);
 
-            result.ShouldBeOfType<PaymentVm>();
-            result.Id.ShouldBe(1);
+            result.Should().BeOfType<PaymentVm>();
+            result.Id.Should().Be(1);
         }
 
-        [Fact]
+        [Test]
         public void Handle_GivenInvalidId_ThrowsException()
         {
             var query = new GetPaymentQuery
@@ -48,7 +54,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
 
             var sut = new GetPaymentQueryHandler(_context, _mapper);
 
-            Should.ThrowAsync<NotFoundException>(() =>
+            Assert.ThrowsAsync<NotFoundException>(() =>
                 sut.Handle(query, CancellationToken.None));
         }
     }

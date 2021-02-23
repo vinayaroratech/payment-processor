@@ -8,7 +8,7 @@ namespace Payments.Infrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {
-        public static async Task SeedAsync(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public static async Task SeedSampleDataAsync(ApplicationDbContext context)
         {
             if (!context.Payments.Any())
             {
@@ -22,11 +22,16 @@ namespace Payments.Infrastructure.Persistence
                         new Payment { Name = "Payment 7" },
                         new Payment { Name = "Payment 8" }
                     );
-            }
 
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager)
+        {
             var defaultUser = new ApplicationUser { UserName = "vinay@arora", Email = "vinay@arora" };
 
-            if (userManager.Users.All(u => u.Id != defaultUser.Id))
+            if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
             {
                 await userManager.CreateAsync(defaultUser, "Administrator1!");
             }

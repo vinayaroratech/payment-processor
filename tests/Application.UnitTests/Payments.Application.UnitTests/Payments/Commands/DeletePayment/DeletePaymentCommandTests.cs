@@ -1,16 +1,16 @@
-﻿using Payments.Application.Common.Exceptions;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using Payments.Application.Common.Exceptions;
 using Payments.Application.Payments.Commands.DeletePayment;
 using Payments.Application.UnitTests.Common;
-using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Payments.Application.UnitTests.Payments.Commands.DeletePayment
 {
     public class DeletePaymentCommandTests : CommandTestBase
     {
-        [Fact]
+        [Test]
         public async Task Handle_GivenValidId_ShouldRemovePersistedPayment()
         {
             var command = new DeletePaymentCommand
@@ -24,10 +24,10 @@ namespace Payments.Application.UnitTests.Payments.Commands.DeletePayment
 
             var entity = Context.Payments.Find(command.Id);
 
-            entity.ShouldBeNull();
+            entity.Should().BeNull();
         }
 
-        [Fact]
+        [Test]
         public void Handle_GivenInvalidId_ThrowsException()
         {
             var command = new DeletePaymentCommand
@@ -37,7 +37,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.DeletePayment
 
             var sut = new DeletePaymentCommandHandler(Context);
 
-            Should.ThrowAsync<NotFoundException>(() =>
+            Assert.ThrowsAsync<NotFoundException>(() =>
                 sut.Handle(command, CancellationToken.None));
         }
     }

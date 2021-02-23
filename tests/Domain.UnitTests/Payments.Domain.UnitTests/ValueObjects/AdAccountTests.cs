@@ -1,24 +1,24 @@
-﻿using Payments.Domain.Common.Exceptions;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using Payments.Domain.Common.Exceptions;
 using Payments.Domain.ValueObjects;
-using Shouldly;
-using Xunit;
 
 namespace Payments.Domain.UnitTests.ValueObjects
 {
     public class AdAccountTests
     {
-        [Fact]
+        [Test]
         public void ShouldHaveCorrectDomainAndName()
         {
             const string accountString = "VA\\Vinay";
 
             var account = AdAccount.For(accountString);
 
-            account.Domain.ShouldBe("VA");
-            account.Name.ShouldBe("Vinay");
+            account.Domain.Should().Be("VA");
+            account.Name.Should().Be("Vinay");
         }
 
-        [Fact]
+        [Test]
         public void ToStringReturnsCorrectFormat()
         {
             const string accountString = "VA\\Vinay";
@@ -27,10 +27,10 @@ namespace Payments.Domain.UnitTests.ValueObjects
 
             var result = account.ToString();
 
-            result.ShouldBe(accountString);
+            result.Should().Be(accountString);
         }
 
-        [Fact]
+        [Test]
         public void ImplicitConversionToStringResultsInCorrectString()
         {
             const string accountString = "VA\\Vinay";
@@ -39,24 +39,27 @@ namespace Payments.Domain.UnitTests.ValueObjects
 
             string result = account;
 
-            result.ShouldBe(accountString);
+            result.Should().Be(accountString);
         }
 
-        [Fact]
+        [Test]
         public void ExplicitConversionFromStringSetsDomainAndName()
         {
             const string accountString = "VA\\Vinay";
 
             var account = (AdAccount)accountString;
 
-            account.Domain.ShouldBe("VA");
-            account.Name.ShouldBe("Vinay");
+            account.Domain.Should().Be("VA");
+            account.Name.Should().Be("Vinay");
         }
 
-        [Fact]
+        [Test]
         public void ShouldThrowAdAccountInvalidExceptionForInvalidAdAccount()
         {
-            Assert.Throws<AdAccountInvalidException>(() => (AdAccount)"VAVinay");
+            Assert.Throws<AdAccountInvalidException>(() =>
+            {
+                var account = (AdAccount)"VAVinay";
+            });
         }
     }
 }

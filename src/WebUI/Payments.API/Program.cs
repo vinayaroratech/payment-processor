@@ -41,7 +41,8 @@ namespace Payments.API
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-                    await ApplicationDbContextSeed.SeedAsync(context, userManager);
+                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
                 }
                 catch (Exception ex)
                 {

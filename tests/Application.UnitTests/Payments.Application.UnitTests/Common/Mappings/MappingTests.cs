@@ -1,32 +1,37 @@
 ﻿using AutoMapper;
+using NUnit.Framework;
+using Payments.Application.Common.Mappings;
 using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using Payments.Domain.Entities;
 using System;
-using Xunit;
 
 namespace Payments.Application.UnitTests.Common.Mappings
 {
-    public class MappingTests : IClassFixture<MappingTestsFixture>
+    public class MappingTests
     {
         private readonly IConfigurationProvider _configuration;
         private readonly IMapper _mapper;
 
-        public MappingTests(MappingTestsFixture fixture)
+        public MappingTests()
         {
-            _configuration = fixture.ConfigurationProvider;
-            _mapper = fixture.Mapper;
+            _configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
+            _mapper = _configuration.CreateMapper();
         }
 
-        [Fact]
+        [Test]
         public void ShouldHaveValidConfiguration()
         {
             _configuration.AssertConfigurationIsValid();
         }
 
-        [Theory]
-        [InlineData(typeof(Payment), typeof(PaymentDto))]
-        [InlineData(typeof(Payment), typeof(PaymentVm))]
+        [Test]
+        [TestCase(typeof(Payment), typeof(PaymentDto))]
+        [TestCase(typeof(Payment), typeof(PaymentVm))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
             var instance = Activator.CreateInstance(source);

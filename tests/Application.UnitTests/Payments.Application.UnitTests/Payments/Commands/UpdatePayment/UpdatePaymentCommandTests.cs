@@ -1,16 +1,16 @@
-﻿using Payments.Application.Common.Exceptions;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using Payments.Application.Common.Exceptions;
 using Payments.Application.Payments.Commands.UpdatePayment;
 using Payments.Application.UnitTests.Common;
-using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Payments.Application.UnitTests.Payments.Commands.UpdatePayment
 {
     public class UpdatePaymentCommandTests : CommandTestBase
     {
-        [Fact]
+        [Test]
         public async Task Handle_GivenValidId_ShouldUpdatePersistedPayment()
         {
             var command = new UpdatePaymentCommand
@@ -26,12 +26,12 @@ namespace Payments.Application.UnitTests.Payments.Commands.UpdatePayment
 
             var entity = Context.Payments.Find(command.Id);
 
-            entity.ShouldNotBeNull();
-            entity.Name.ShouldBe(command.Name);
-            entity.IsComplete.ShouldBeTrue();
+            entity.Should().NotBeNull();
+            entity.Name.Should().Be(command.Name);
+            entity.IsComplete.Should().BeTrue();
         }
 
-        [Fact]
+        [Test]
         public void Handle_GivenInvalidId_ThrowsException()
         {
             var command = new UpdatePaymentCommand
@@ -43,7 +43,7 @@ namespace Payments.Application.UnitTests.Payments.Commands.UpdatePayment
 
             var sut = new UpdatePaymentCommandHandler(Context);
 
-            Should.ThrowAsync<NotFoundException>(() =>
+            Assert.ThrowsAsync<NotFoundException>(() =>
                 sut.Handle(command, CancellationToken.None));
         }
     }

@@ -12,7 +12,7 @@ namespace Payments.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddFluentValidation(Assembly.GetExecutingAssembly());
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
@@ -20,7 +20,7 @@ namespace Payments.Application
             return services;
         }
 
-        public static IServiceCollection AddFluentValidation(this IServiceCollection services, Assembly assembly)
+        private static IServiceCollection AddFluentValidation(this IServiceCollection services, Assembly assembly)
         {
             var validatorType = typeof(IValidator<>);
 
