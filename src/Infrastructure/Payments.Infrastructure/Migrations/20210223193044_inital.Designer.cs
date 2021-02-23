@@ -10,8 +10,8 @@ using Payments.Infrastructure.Persistence;
 namespace Payments.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210223154945_Initial")]
-    partial class Initial
+    [Migration("20210223193044_inital")]
+    partial class inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -273,6 +273,9 @@ namespace Payments.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModified")

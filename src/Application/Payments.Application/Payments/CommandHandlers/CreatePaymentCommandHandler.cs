@@ -26,11 +26,10 @@ namespace Payments.Application.Payments.CommandHandlers
             };
 
             _context.Payments.Add(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
             
             entity.DomainEvents.Add(new PaymentCreatedEvent(entity));
-
+            
+            await _context.SaveChangesAsync(cancellationToken);
             return entity.Id;
         }
     }
