@@ -11,23 +11,29 @@ using Payments.Infrastructure.Persistence;
 using Payments.Infrastructure.Seed;
 using Payments.Infrastructure.Services;
 using System.Linq;
+
 namespace Payments.Infrastructure
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
-#if DEBUG
-            services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("PaymentProcessorDb"));
-#else
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase("DefaultConnection"));
+            }
+            else
+            {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-#endif
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>())
-                .AddScoped<IDomainEventService, DomainEventService>();
+            }
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
+            services.AddScoped<IDomainEventService, DomainEventService>();
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options =>
@@ -46,7 +52,6 @@ namespace Payments.Infrastructure
                     .AddTransient<IIdentityService, IdentityService>();
 
             AddIdentityServer(services, environment);
-
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
@@ -76,13 +81,6 @@ namespace Payments.Infrastructure
                 services.AddIdentityServer()
                     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
             }
-        }
-
-        public static IServiceCollection AddUserService(this IServiceCollection services)
-        {
-            services.AddSingleton<ICurrentUserService, CurrentUserService>();
-
-            return services;
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using Payments.Application.Payments.Queries.GetPaymentsList;
-using Shouldly;
 using System.Threading.Tasks;
 
 namespace Payments.Application.IntegrationTests.Payments.Queries.GetPaymentsList
@@ -12,8 +12,8 @@ namespace Payments.Application.IntegrationTests.Payments.Queries.GetPaymentsList
         public async Task ShouldGetAllPayments()
         {
             var result = await SendAsync(new GetPaymentsListQuery());
-            result.ShouldBeOfType<PaymentsListVm>();
-            result.Payments.Count.ShouldBe(4);
+            result.Should().BeOfType<PaymentsListVm>();
+            result.Payments.Count.Should().BeGreaterThan(0);
         }
     }
 }

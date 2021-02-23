@@ -1,5 +1,5 @@
-﻿using Payments.Application.Payments.Commands.CreatePayment;
-using Shouldly;
+﻿using FluentAssertions;
+using Payments.Application.Payments.Commands.CreatePayment;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -33,7 +33,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             response.EnsureSuccessStatusCode();
             var id = await response.Content.ReadAsStringAsync();
-            id.ShouldNotBeNullOrEmpty();
+            id.Should().NotBeNullOrEmpty();
             return id;
         }
 
@@ -51,7 +51,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var response = await client.PostAsync(_paymentBaseUri, content);
 
-            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var response = await client.PostAsync(_paymentBaseUri, content);
 
-            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

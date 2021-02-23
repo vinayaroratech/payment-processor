@@ -1,5 +1,7 @@
-﻿using Payments.Application.Payments.Commands.UpdatePayment;
+﻿using FluentAssertions;
+using Payments.Application.Payments.Commands.UpdatePayment;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -24,7 +26,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
             var command = new UpdatePaymentCommand
             {
                 Id = Convert.ToInt64(validId),
-                Name = "Do this thing.",
+                Name = $"Do this thing - {DateTime.Now.Ticks}.",
                 IsComplete = true
             };
 
@@ -33,6 +35,25 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
             var response = await client.PutAsync($"{_paymentBaseUri}/{command.Id}", content);
 
             response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async Task GivenValidUpdatePaymentCommand_ReturnsBadRequest()
+        {
+            var client = await _factory.GetAuthenticatedClientAsync();
+            var validId = await new Create(_factory).GivenValidCreatePaymentCommand_ReturnsSuccessCode();
+            var command = new UpdatePaymentCommand
+            {
+                Id = Convert.ToInt64(validId),
+                Name = "Do this thing.",
+                IsComplete = true
+            };
+
+            var content = IntegrationTestHelper.GetRequestContent(command);
+
+            var response = await client.PutAsync($"{_paymentBaseUri}/{command.Id}", content);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

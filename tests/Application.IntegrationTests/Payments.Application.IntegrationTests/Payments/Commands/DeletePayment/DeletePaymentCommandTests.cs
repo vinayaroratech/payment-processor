@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Payments.Application.Common.Exceptions;
 using Payments.Application.IntegrationTests.NUnitTests;
+using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.DeletePayment;
 using Payments.Domain.Entities;
 using System.Threading.Tasks;
@@ -14,11 +15,16 @@ namespace Payments.Application.IntegrationTests.Payments.Commands.DeletePayment
         [Test]
         public async Task ShouldDeletePayment()
         {
-            long id = 1;
+            var command = new CreatePaymentCommand
+            {
+                Name = "Do yet another thing for delete."
+            };
 
-            await SendAsync(new DeletePaymentCommand { Id = id });
+            var paymentId = await SendAsync(command);
 
-            var payment = await FindAsync<Payment>(id);
+            await SendAsync(new DeletePaymentCommand { Id = paymentId });
+
+            var payment = await FindAsync<Payment>(paymentId);
 
             payment.Should().BeNull();
         }

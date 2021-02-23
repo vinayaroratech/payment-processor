@@ -6,7 +6,6 @@ using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.UpdatePayment;
 using Payments.Domain.Entities;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Payments.Application.IntegrationTests.Payments.Commands.UpdatePayment
@@ -18,9 +17,15 @@ namespace Payments.Application.IntegrationTests.Payments.Commands.UpdatePayment
         public async Task ShouldUpdatePersistedPayment()
         {
             var userId = await RunAsDefaultUserAsync();
+
+            var paymentId = await SendAsync(new CreatePaymentCommand
+            {
+                Name = "Do yet another thing for update."
+            });
+
             var command = new UpdatePaymentCommand
             {
-                Id = 1,
+                Id = paymentId,
                 Name = "This thing is also done.",
                 IsComplete = true
             };
@@ -58,6 +63,11 @@ namespace Payments.Application.IntegrationTests.Payments.Commands.UpdatePayment
             var paymentId = await SendAsync(new CreatePaymentCommand
             {
                 Name = "New List"
+            });
+
+            await SendAsync(new CreatePaymentCommand
+            {
+                Name = "This thing is also done"
             });
 
             var command = new UpdatePaymentCommand

@@ -1,5 +1,5 @@
-﻿using Payments.Application.Payments.Queries.GetPayment;
-using Shouldly;
+﻿using FluentAssertions;
+using Payments.Application.Payments.Queries.GetPayment;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -29,8 +29,8 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var vm = await IntegrationTestHelper.GetResponseContent<PaymentVm>(response);
 
-            vm.ShouldBeOfType<PaymentVm>();
-            vm.Id.ShouldBe(Convert.ToInt64(validId));
+            vm.Should().BeOfType<PaymentVm>();
+            vm.Id.Should().Be(Convert.ToInt64(validId));
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var response = await client.GetAsync($"{_paymentBaseUri}/{invalidId}");
 
-            response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

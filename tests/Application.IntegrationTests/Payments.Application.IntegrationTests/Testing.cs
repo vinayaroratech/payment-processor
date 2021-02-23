@@ -11,6 +11,7 @@ using Payments.Application.Common.Interfaces;
 using Payments.Infrastructure.Identity;
 using Payments.Infrastructure.Persistence;
 using Respawn;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Payments.Application.IntegrationTests
         private static IConfigurationRoot _configuration;
         private static IServiceScopeFactory _scopeFactory;
         private static Checkpoint _checkpoint;
+        private static string _currentUserId;
 
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
@@ -36,7 +38,7 @@ namespace Payments.Application.IntegrationTests
 
             IWebHostEnvironment webHostEnvironment = Mock.Of<IWebHostEnvironment>(w =>
                 w.EnvironmentName == "Development" &&
-                w.ApplicationName == "Payment.API");
+                w.ApplicationName == "Payments.API");
 
             var startup = new Startup(_configuration, webHostEnvironment);
 
@@ -48,16 +50,24 @@ namespace Payments.Application.IntegrationTests
 
             startup.ConfigureServices(services);
 
-            // Setup testing user (need to add a user to identity and use a real guid)
+            // Replace service registration for ICurrentUserService
+            // Remove existing registration
             var currentUserServiceDescriptor = services.FirstOrDefault(d =>
                 d.ServiceType == typeof(ICurrentUserService));
 
             services.Remove(currentUserServiceDescriptor);
 
-            services.AddTransient<ICurrentUserService, CurrentUserService>();
+            // Register testing version
+            services.AddTransient(provider =>
+                Mock.Of<ICurrentUserService>(s => s.UserId == _currentUserId));
 
             _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
-            _checkpoint = new Checkpoint();
+
+            _checkpoint = new Checkpoint
+            {
+                TablesToIgnore = new[] { "__EFMigrationsHistory" }
+            };
+
             EnsureDatabase();
         }
 
@@ -74,37 +84,53 @@ namespace Payments.Application.IntegrationTests
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var mediator = scope.ServiceProvider.GetService<IMediator>();
+            var mediator = scope.ServiceProvider.GetService<ISender>();
 
             return await mediator.Send(request);
         }
 
-        public class CurrentUserService : ICurrentUserService
-        {
-            public string UserId => _currentUserId;
-        }
-
-        private static string _currentUserId;
-
         public static async Task<string> RunAsDefaultUserAsync()
         {
-            return await RunAsUserAsync("test@local", "Testing1234!");
+            return await RunAsUserAsync("test@local", "Testing1234!", new string[] { });
         }
 
-        public static async Task<string> RunAsUserAsync(string userName, string password)
+        public static async Task<string> RunAsAdministratorAsync()
+        {
+            return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { "Administrator" });
+        }
+
+        public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)
         {
             using var scope = _scopeFactory.CreateScope();
 
             var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-            var currentUserService = scope.ServiceProvider.GetService<ICurrentUserService>();
 
             var user = new ApplicationUser { UserName = userName, Email = userName };
 
             var result = await userManager.CreateAsync(user, password);
 
-            _currentUserId = user.Id;
+            if (roles.Any())
+            {
+                var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
-            return _currentUserId;
+                foreach (var role in roles)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+
+                await userManager.AddToRolesAsync(user, roles);
+            }
+
+            if (result.Succeeded)
+            {
+                _currentUserId = user.Id;
+
+                return _currentUserId;
+            }
+
+            var errors = string.Join(Environment.NewLine, result.ToApplicationResult().Errors);
+
+            throw new Exception($"Unable to create {userName}.{Environment.NewLine}{errors}");
         }
 
         public static async Task ResetState()
@@ -113,14 +139,35 @@ namespace Payments.Application.IntegrationTests
             _currentUserId = null;
         }
 
-        public static async Task<T> FindAsync<T>(long id)
-            where T : class
+        public static async Task<TEntity> FindAsync<TEntity>(params object[] keyValues)
+            where TEntity : class
         {
             using var scope = _scopeFactory.CreateScope();
 
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-            return await context.FindAsync<T>(id);
+            return await context.FindAsync<TEntity>(keyValues);
+        }
+
+        public static async Task AddAsync<TEntity>(TEntity entity)
+            where TEntity : class
+        {
+            using var scope = _scopeFactory.CreateScope();
+
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+            context.Add(entity);
+
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task<int> CountAsync<TEntity>() where TEntity : class
+        {
+            using var scope = _scopeFactory.CreateScope();
+
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+            return await context.Set<TEntity>().CountAsync();
         }
 
         [OneTimeTearDown]

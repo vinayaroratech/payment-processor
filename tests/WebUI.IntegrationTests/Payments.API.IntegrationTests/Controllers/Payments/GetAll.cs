@@ -1,5 +1,5 @@
-﻿using Payments.Application.Payments.Queries.GetPaymentsList;
-using Shouldly;
+﻿using FluentAssertions;
+using Payments.Application.Payments.Queries.GetPaymentsList;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,8 +26,8 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var vm = await IntegrationTestHelper.GetResponseContent<PaymentsListVm>(response);
 
-            vm.ShouldBeOfType<PaymentsListVm>();
-            vm.Payments.Count.ShouldBeGreaterThan(0);
+            vm.Should().BeOfType<PaymentsListVm>();
+            vm.Payments.Count.Should().BeGreaterThan(0);
         }
     }
 }

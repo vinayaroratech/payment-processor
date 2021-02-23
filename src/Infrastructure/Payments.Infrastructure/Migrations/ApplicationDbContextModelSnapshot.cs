@@ -404,6 +404,29 @@ namespace Payments.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
+            modelBuilder.Entity("Payments.Domain.Entities.Payment", b =>
+                {
+                    b.OwnsOne("Payments.Domain.ValueObjects.Status", "Status", b1 =>
+                        {
+                            b1.Property<long>("PaymentId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Code")
+                                .HasColumnType("int");
+
+                            b1.HasKey("PaymentId");
+
+                            b1.ToTable("Payments");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PaymentId");
+                        });
+
+                    b.Navigation("Status");
+                });
 #pragma warning restore 612, 618
         }
     }

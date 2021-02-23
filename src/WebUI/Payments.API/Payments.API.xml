@@ -115,28 +115,11 @@
             <param name="configuration"></param>
             <param name="environment"></param>
         </member>
-        <member name="P:Payments.API.Startup.Configuration">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Payments.API.Startup.Environment">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:Payments.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             
             </summary>
             <param name="services"></param>
-        </member>
-        <member name="M:Payments.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
-            <summary>
-            
-            </summary>
-            <param name="app"></param>
-            <param name="env"></param>
         </member>
     </members>
 </doc>

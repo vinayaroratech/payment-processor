@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Payments.API.Common;
+using Payments.API.Filters;
 using Payments.Application;
+using Payments.Application.Common.Interfaces;
 using Payments.Infrastructure;
 using Payments.Infrastructure.Persistence;
+using Payments.Infrastructure.Services;
 
 namespace Payments.API
 {
@@ -28,33 +32,28 @@ namespace Payments.API
             Environment = environment;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public IConfiguration Configuration { get; }
-        /// <summary>
-        /// 
-        /// </summary>
         public IWebHostEnvironment Environment { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="services"></param>
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddUserService()
-                .AddApplication()
-                .AddInfrastructure(Configuration, Environment)
-                .AddControllers();
+            services.AddApplication()
+                    .AddInfrastructure(Configuration, Environment)
+                    .AddDatabaseDeveloperPageExceptionFilter()
+                     .AddSingleton<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddControllersWithViews(options =>
+                options.Filters.Add<ApiExceptionFilterAttribute>())
+                    .AddFluentValidation();
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
@@ -88,11 +87,6 @@ namespace Payments.API
             #endregion
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -103,6 +97,8 @@ namespace Payments.API
             }
             else
             {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

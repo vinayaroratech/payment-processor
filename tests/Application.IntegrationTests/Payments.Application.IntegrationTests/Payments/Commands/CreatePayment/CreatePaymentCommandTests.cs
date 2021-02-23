@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Payments.Application.Common.Exceptions;
 using Payments.Application.IntegrationTests.NUnitTests;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Domain.Entities;
-using Shouldly;
 using System;
 using System.Threading.Tasks;
 
@@ -26,8 +26,8 @@ namespace Payments.Application.IntegrationTests.Payments.Commands.CreatePayment
 
             var payment = await FindAsync<Payment>(paymentId);
 
-            payment.ShouldNotBeNull();
-            payment.IsComplete.ShouldBeFalse();
+            payment.Should().NotBeNull();
+            payment.IsComplete.Should().BeFalse();
             payment.Should().NotBeNull();
             payment.Id.Should().Be(paymentId);
             payment.Name.Should().Be(command.Name);
@@ -35,6 +35,15 @@ namespace Payments.Application.IntegrationTests.Payments.Commands.CreatePayment
             payment.Created.Should().BeCloseTo(DateTime.Now, 10000);
             payment.LastModifiedBy.Should().BeNull();
             payment.LastModified.Should().BeNull();
+        }
+
+        [Test]
+        public void ShouldRequireMinimumFields()
+        {
+            var command = new CreatePaymentCommand();
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<ValidationException>();
         }
     }
 }

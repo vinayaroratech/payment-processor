@@ -2,10 +2,9 @@
 using NUnit.Framework;
 using Payments.Application.Common.Exceptions;
 using Payments.Application.IntegrationTests.NUnitTests;
+using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Queries.GetPayment;
-using Shouldly;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Payments.Application.IntegrationTests.Payments.Queries.GetPayment
 {
@@ -16,15 +15,20 @@ namespace Payments.Application.IntegrationTests.Payments.Queries.GetPayment
         [Test]
         public async Task ShouldGetPaymentById()
         {
+            var paymentId = await SendAsync(new CreatePaymentCommand
+            {
+                Name = "Do yet another thing for Get By id."
+            });
+
             var query = new GetPaymentQuery
             {
-                Id = 1
+                Id = paymentId
             };
 
             var result = await SendAsync(query);
 
-            result.ShouldBeOfType<PaymentVm>();
-            result.Id.ShouldBe(1);
+            result.Should().BeOfType<PaymentVm>();
+            result.Id.Should().Be(paymentId);
         }
 
         [Test]

@@ -4,12 +4,12 @@ using Payments.Application.Common.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.Payments.Commands.CreatePayment
+namespace Payments.Application.Payments.Commands.UpdatePayment
 {
-    public class CreatePaymentCommandValidator : AbstractValidator<CreatePaymentCommand>
+    public class UpdatePaymentCommandValidator : AbstractValidator<UpdatePaymentCommand>
     {
         private readonly IApplicationDbContext _context;
-        public CreatePaymentCommandValidator(IApplicationDbContext context)
+        public UpdatePaymentCommandValidator(IApplicationDbContext context)
         {
             _context = context;
 

@@ -1,4 +1,4 @@
-﻿using Shouldly;
+﻿using FluentAssertions;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -36,7 +36,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var response = await client.DeleteAsync($"{_paymentBaseUri}/{invalidId}");
 
-            response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
