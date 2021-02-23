@@ -25,7 +25,8 @@ namespace Payments.Infrastructure
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 #endif
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>())
+                .AddScoped<IDomainEventService, DomainEventService>();
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
@@ -71,7 +72,7 @@ namespace Payments.Infrastructure
 
         public static IServiceCollection AddUserService(this IServiceCollection services)
         {
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             return services;
         }

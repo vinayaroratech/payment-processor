@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Payments.Application.Payments.CommandHandlers;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.UnitTests.Common;
 using System.Threading;

@@ -1,22 +1,23 @@
 ﻿using MediatR;
 using Payments.Application.Common.Exceptions;
 using Payments.Application.Common.Interfaces;
+using Payments.Application.Payments.Commands.UpdatePayment;
 using Payments.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.Payments.Commands.DeletePayment
+namespace Payments.Application.Payments.CommandHandlers
 {
-    public class DeletePaymentCommandHandler : IRequestHandler<DeletePaymentCommand, long>
+    public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, long>
     {
         private readonly IApplicationDbContext _context;
 
-        public DeletePaymentCommandHandler(IApplicationDbContext context)
+        public UpdatePaymentCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<long> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<long> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Payments.FindAsync(request.Id);
 
@@ -25,7 +26,8 @@ namespace Payments.Application.Payments.Commands.DeletePayment
                 throw new NotFoundException(nameof(Payment), request.Id);
             }
 
-            _context.Payments.Remove(entity);
+            entity.Name = request.Name;
+            entity.IsComplete = request.IsComplete;
 
             await _context.SaveChangesAsync(cancellationToken);
 

@@ -16,4 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Payments.Domain\Payments.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Payments\Events\" />
+  </ItemGroup>
 </Project>

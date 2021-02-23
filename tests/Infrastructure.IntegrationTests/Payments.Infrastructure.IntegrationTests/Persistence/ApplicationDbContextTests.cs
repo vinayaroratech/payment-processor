@@ -1,13 +1,16 @@
 ﻿using FluentAssertions;
 using IdentityServer4.EntityFramework.Options;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using Payments.Application.Common.Interfaces;
+using Payments.Domain.Common;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Persistence;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Payments.Infrastructure.IntegrationTests.Persistence
@@ -19,12 +22,17 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
         private readonly Mock<IDateTime> _dateTimeMock;
         private readonly Mock<ICurrentUserService> _currentUserServiceMock;
         private readonly ApplicationDbContext _sut;
+        private readonly Mock<IDomainEventService> _domainEventServiceMock;
 
         public ApplicationDbContextTests()
         {
             _dateTime = new DateTime(3001, 1, 1);
             _dateTimeMock = new Mock<IDateTime>();
             _dateTimeMock.Setup(m => m.Now).Returns(_dateTime);
+
+            _domainEventServiceMock = new Mock<IDomainEventService>();
+            _domainEventServiceMock.Setup(m => m.Publish(It.IsAny<DomainEvent>()))
+                .Returns(Task.CompletedTask);
 
             _userId = "00000000-0000-0000-0000-000000000000";
             _currentUserServiceMock = new Mock<ICurrentUserService>();
@@ -41,7 +49,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
                     PersistedGrants = new TableConfiguration("PersistedGrants")
                 });
 
-            _sut = new ApplicationDbContext(options, operationalStoreOptions, _currentUserServiceMock.Object, _dateTimeMock.Object);
+            _sut = new ApplicationDbContext(options, operationalStoreOptions, _currentUserServiceMock.Object, _dateTimeMock.Object, _domainEventServiceMock.Object);
 
             _sut.Payments.Add(new Payment
             {

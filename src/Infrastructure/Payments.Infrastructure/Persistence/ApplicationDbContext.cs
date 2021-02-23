@@ -1,4 +1,5 @@
 ﻿using IdentityServer4.EntityFramework.Options;
+using MediatR;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -8,6 +9,7 @@ using Payments.Domain.Common;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Identity;
 using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,17 +20,18 @@ namespace Payments.Infrastructure.Persistence
         private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
         private IDbContextTransaction _currentTransaction;
+        private readonly IDomainEventService _domainEventService;
 
         public ApplicationDbContext(
              DbContextOptions options,
              IOptions<OperationalStoreOptions> operationalStoreOptions,
              ICurrentUserService currentUserService,
-             IDateTime dateTime) : base(options, operationalStoreOptions)
+             IDateTime dateTime,
+             IDomainEventService domainEventService) : base(options, operationalStoreOptions)
         {
-            {
-                _currentUserService = currentUserService;
-                _dateTime = dateTime;
-            }
+            _currentUserService = currentUserService;
+            _dateTime = dateTime;
+            _domainEventService = domainEventService;
         }
 
         public DbSet<Payment> Payments { get; set; }
@@ -89,14 +92,14 @@ namespace Payments.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly); 
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(builder);
         }
 
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())
             {
                 switch (entry.State)
                 {
@@ -111,7 +114,24 @@ namespace Payments.Infrastructure.Persistence
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            int result = await base.SaveChangesAsync(cancellationToken);
+
+            await DispatchEvents(cancellationToken);
+
+            return result;
+        }
+
+        private async Task DispatchEvents(CancellationToken cancellationToken)
+        {
+            var domainEventEntities = ChangeTracker.Entries<IHasDomainEvent>()
+                .Select(x => x.Entity.DomainEvents)
+                .SelectMany(x => x)
+                .ToArray();
+
+            foreach (var domainEvent in domainEventEntities)
+            {
+                await _domainEventService.Publish(domainEvent);
+            }
         }
 
         public override int SaveChanges()

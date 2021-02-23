@@ -8,6 +8,8 @@ namespace Payments.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
+            builder.Ignore(e => e.DomainEvents);
+
             builder.Property(t => t.Name)
                 .HasMaxLength(200)
                 .IsRequired();

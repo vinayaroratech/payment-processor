@@ -1,11 +1,15 @@
 ﻿using IdentityServer4.EntityFramework.Options;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using Payments.Application.Common.Interfaces;
+using Payments.Domain.Common;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Persistence;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Payments.Application.UnitTests.Common
 {
@@ -28,13 +32,17 @@ namespace Payments.Application.UnitTests.Common
             dateTimeMock.Setup(m => m.Now)
                 .Returns(new DateTime(3001, 1, 1));
 
+            var domainServiceMock = new Mock<IDomainEventService>();
+            domainServiceMock.Setup(m => m.Publish(It.IsAny<DomainEvent>()))
+                .Returns(Task.CompletedTask);
+
             var currentUserServiceMock = new Mock<ICurrentUserService>();
             currentUserServiceMock.Setup(m => m.UserId)
                 .Returns("00000000-0000-0000-0000-000000000000");
 
             var context = new ApplicationDbContext(
                 options, operationalStoreOptions,
-                currentUserServiceMock.Object, dateTimeMock.Object);
+                currentUserServiceMock.Object, dateTimeMock.Object, domainServiceMock.Object);
 
             context.Database.EnsureCreated();
 

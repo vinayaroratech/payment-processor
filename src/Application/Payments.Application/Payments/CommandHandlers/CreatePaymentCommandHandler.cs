@@ -1,10 +1,12 @@
-﻿using Payments.Application.Common.Interfaces;
+﻿using MediatR;
+using Payments.Application.Common.Interfaces;
+using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Domain.Entities;
-using MediatR;
+using Payments.Domain.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.Payments.Commands.CreatePayment
+namespace Payments.Application.Payments.CommandHandlers
 {
     public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, long>
     {
@@ -26,6 +28,8 @@ namespace Payments.Application.Payments.Commands.CreatePayment
             _context.Payments.Add(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
+            
+            entity.DomainEvents.Add(new PaymentCreatedEvent(entity));
 
             return entity.Id;
         }

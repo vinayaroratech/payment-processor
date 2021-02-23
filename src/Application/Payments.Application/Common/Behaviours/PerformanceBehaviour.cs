@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Payments.Application.Common.Behaviours
 {
-    public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly Stopwatch _timer;
         private readonly ILogger<TRequest> _logger;
         private readonly ICurrentUserService _currentUserService;
         private readonly IIdentityService _identityService;
 
-        public RequestPerformanceBehaviour(
+        public PerformanceBehaviour(
             ILogger<TRequest> logger,
             ICurrentUserService currentUserService,
             IIdentityService identityService)
