@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Payments.Domain.Common
 {
-    public abstract class AuditableEntity
+    public abstract class AuditableEntity : BaseEntity
     {
         public string CreatedBy { get; set; }
 

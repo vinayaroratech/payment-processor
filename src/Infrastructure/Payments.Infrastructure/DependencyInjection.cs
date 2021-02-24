@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Payments.Application.Common.Interfaces;
+using Payments.Infrastructure.Data.Repositories;
 using Payments.Infrastructure.Identity;
 using Payments.Infrastructure.Persistence;
 using Payments.Infrastructure.Seed;
@@ -34,6 +35,8 @@ namespace Payments.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddScoped<IDomainEventService, DomainEventService>();
+            services.AddTransient<IDatabaseTransaction, EntityDatabaseTransaction>();
+            services.AddScoped<EfPaymentRepository>();
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options =>

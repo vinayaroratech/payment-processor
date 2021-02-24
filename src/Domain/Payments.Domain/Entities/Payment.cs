@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 namespace Payments.Domain.Entities
 {
-    public class Payment : AuditableEntity, IHasDomainEvent
+    public class Payment : AuditableEntity, IHasDomainEvent, IAggregateRoot
     {
-        public long Id { get; set; }
-
         public string Name { get; set; }
 
         public bool IsComplete { get; set; }
