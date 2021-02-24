@@ -10,16 +10,16 @@ namespace Payments.Application.Payments.CommandHandlers
 {
     public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, long>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IPaymentRepository _repository;
 
-        public UpdatePaymentCommandHandler(IApplicationDbContext context)
+        public UpdatePaymentCommandHandler(IPaymentRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<long> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Payments.FindAsync(request.Id);
+            var entity = await _repository.GetByIdAsync(request.Id, cancellationToken).ConfigureAwait(false);
 
             if (entity == null)
             {
@@ -29,7 +29,7 @@ namespace Payments.Application.Payments.CommandHandlers
             entity.Name = request.Name;
             entity.IsComplete = request.IsComplete;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.UpdateAsync(entity, cancellationToken).ConfigureAwait(false);
 
             return entity.Id;
         }

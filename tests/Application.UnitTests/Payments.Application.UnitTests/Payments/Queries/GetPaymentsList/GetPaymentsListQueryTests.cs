@@ -5,34 +5,27 @@ using Payments.Application.Common.Interfaces;
 using Payments.Application.Common.Mappings;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using Payments.Application.UnitTests.Common;
+using Payments.Infrastructure.Data.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Payments.Application.UnitTests.Payments.Queries.GetPaymentsList
 {
-    public class GetPaymentsListQueryTests
+    public class GetPaymentsListQueryTests : CommandTestBase
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IConfigurationProvider _configuration;
-        private readonly IMapper _mapper;
+        private readonly IPaymentRepository _repository;
 
-        public GetPaymentsListQueryTests()
+        public GetPaymentsListQueryTests() : base()
         {
-            _configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
-
-            _context = ApplicationDbContextFactory.Create();
-            _mapper = _configuration.CreateMapper();
+            _repository = new EfPaymentRepository(Context, Mapper);
         }
 
         [Test]
         public async Task Handle_ReturnsCorrectVmAndPaymentsCount()
         {
-            var sut = new GetPaymentsListQueryHandler(_context, _mapper);
+            var sut = new GetPaymentsListQueryHandler(_repository, Mapper);
 
-            var result = await sut.Handle(new GetPaymentsListQuery(), CancellationToken.None);
+            var result = await sut.Handle(new GetPaymentsListQuery(), CancellationToken.None).ConfigureAwait(false);
 
             result.Should().BeOfType<PaymentsListVm>();
             result.Payments.Count.Should().Be(4);

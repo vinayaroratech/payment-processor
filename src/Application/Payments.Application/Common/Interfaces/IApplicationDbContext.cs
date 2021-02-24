@@ -18,6 +18,8 @@ namespace Payments.Application.Common.Interfaces
 
         EntityEntry Entry(object entity);
 
+        Task<int> SaveChangesAsync();
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         DbSet<Payment> Payments { get; set; }

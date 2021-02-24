@@ -10,25 +10,23 @@ namespace Payments.Application.Payments.CommandHandlers
 {
     public class DeletePaymentCommandHandler : IRequestHandler<DeletePaymentCommand, long>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IPaymentRepository _repository;
 
-        public DeletePaymentCommandHandler(IApplicationDbContext context)
+        public DeletePaymentCommandHandler(IPaymentRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<long> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Payments.FindAsync(request.Id);
+            var entity = await _repository.GetByIdAsync(request.Id).ConfigureAwait(false);
 
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Payment), request.Id);
             }
 
-            _context.Payments.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.DeleteAsync(entity, cancellationToken).ConfigureAwait(false);
 
             return entity.Id;
         }

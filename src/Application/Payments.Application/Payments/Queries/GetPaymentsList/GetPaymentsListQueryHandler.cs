@@ -10,18 +10,18 @@ namespace Payments.Application.Payments.Queries.GetPaymentsList
 {
     public class GetPaymentsListQueryHandler : IRequestHandler<GetPaymentsListQuery, PaymentsListVm>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IPaymentRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetPaymentsListQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetPaymentsListQueryHandler(IPaymentRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
         public async Task<PaymentsListVm> Handle(GetPaymentsListQuery request, CancellationToken cancellationToken)
         {
-            var items = await _context.Payments
+            var items = await _repository.Entity
                 .AsNoTracking()
                 .ProjectTo<PaymentDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);

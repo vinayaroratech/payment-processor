@@ -75,7 +75,7 @@ namespace Payments.Application.IntegrationTests
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            var context = scope.ServiceProvider.GetService<IApplicationDbContext>();
 
             context.Database.Migrate();
         }

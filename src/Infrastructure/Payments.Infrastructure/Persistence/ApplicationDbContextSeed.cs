@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Payments.Application.Common.Interfaces;
 using Payments.Domain.Entities;
 using Payments.Domain.ValueObjects;
 using Payments.Infrastructure.Identity;
@@ -9,7 +10,7 @@ namespace Payments.Infrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {
-        public static async Task SeedSampleDataAsync(ApplicationDbContext context)
+        public static async Task SeedSampleDataAsync(IApplicationDbContext context)
         {
             if (!context.Payments.Any())
             {

@@ -27,7 +27,7 @@ namespace Payments.Application.Payments.CommandHandlers
 
 
             entity.DomainEvents.Add(new PaymentCreatedEvent(entity));
-            await _repository.AddAsync(entity);
+            await _repository.AddAsync(entity, cancellationToken);
 
             return entity.Id;
         }

@@ -145,5 +145,10 @@ namespace Payments.Infrastructure.Persistence
         {
             return SaveChangesAsync().GetAwaiter().GetResult();
         }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await SaveChangesAsync(default).ConfigureAwait(false);
+        }
     }
 }
