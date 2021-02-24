@@ -7,7 +7,7 @@ using Payments.Application.Payments.Commands.DeletePayment;
 using Payments.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace Payments.Application.IntegrationTests.Payments.Commands.DeletePayment
+namespace Payments.Application.IntegrationTests.Payments.Commands
 {
     using static Testing;
     public class DeletePaymentCommandTests : TestBase

@@ -9,7 +9,7 @@ using Payments.Infrastructure.Data.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.UnitTests.Payments.Queries.GetPaymentsWithPagination
+namespace Payments.Application.UnitTests.Payments.Queries
 {
     public class GetPaymentsWithPaginationQueryTests : CommandTestBase
     {

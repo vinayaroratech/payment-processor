@@ -8,7 +8,7 @@ using Payments.Infrastructure.Data.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Payments.Application.UnitTests.Payments.Commands.CreatePayment
+namespace Payments.Application.UnitTests.Payments.Commands
 {
     public class CreatePaymentCommandTests : CommandTestBase
     {

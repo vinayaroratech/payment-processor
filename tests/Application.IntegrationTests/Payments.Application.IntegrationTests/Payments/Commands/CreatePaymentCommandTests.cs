@@ -7,7 +7,7 @@ using Payments.Domain.Entities;
 using System;
 using System.Threading.Tasks;
 
-namespace Payments.Application.IntegrationTests.Payments.Commands.CreatePayment
+namespace Payments.Application.IntegrationTests.Payments.Commands
 {
     using static Testing;
     public class CreatePaymentCommandTests : TestBase

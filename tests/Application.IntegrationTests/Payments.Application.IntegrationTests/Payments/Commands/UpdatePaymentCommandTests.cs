@@ -8,7 +8,7 @@ using Payments.Domain.Entities;
 using System;
 using System.Threading.Tasks;
 
-namespace Payments.Application.IntegrationTests.Payments.Commands.UpdatePayment
+namespace Payments.Application.IntegrationTests.Payments.Commands
 {
     using static Testing;
     public class UpdatePaymentCommandTests : TestBase

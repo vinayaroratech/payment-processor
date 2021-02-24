@@ -6,7 +6,7 @@ using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Queries.GetPayment;
 using System.Threading.Tasks;
 
-namespace Payments.Application.IntegrationTests.Payments.Queries.GetPayment
+namespace Payments.Application.IntegrationTests.Payments.Queries
 {
     using static Testing;
 

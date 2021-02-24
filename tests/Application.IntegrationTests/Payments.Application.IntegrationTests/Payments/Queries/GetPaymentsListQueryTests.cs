@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using System.Threading.Tasks;
 
-namespace Payments.Application.IntegrationTests.Payments.Queries.GetPaymentsList
+namespace Payments.Application.IntegrationTests.Payments.Queries
 {
     using static Testing;
     public class GetPaymentsListQueryTests
