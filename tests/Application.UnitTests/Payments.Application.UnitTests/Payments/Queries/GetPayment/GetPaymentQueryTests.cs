@@ -1,31 +1,22 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 using Payments.Application.Common.Exceptions;
-using Payments.Application.Common.Mappings;
+using Payments.Application.Common.Interfaces;
 using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.UnitTests.Common;
-using Payments.Infrastructure.Persistence;
+using Payments.Infrastructure.Data.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
 {
-    public class GetPaymentQueryTests
+    public class GetPaymentQueryTests : CommandTestBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IConfigurationProvider _configuration;
-        private readonly IMapper _mapper;
+        private readonly IPaymentRepository _repository;
 
-        public GetPaymentQueryTests()
+        public GetPaymentQueryTests() : base()
         {
-            _configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
-
-            _context = ApplicationDbContextFactory.Create();
-            _mapper = _configuration.CreateMapper();
+            _repository = new EfPaymentRepository(Context, Mapper);
         }
 
         [Test]
@@ -36,7 +27,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
                 Id = 1
             };
 
-            var sut = new GetPaymentQueryHandler(_context, _mapper);
+            var sut = new GetPaymentQueryHandler(Context, Mapper);
 
             var result = await sut.Handle(query, CancellationToken.None);
 
@@ -52,7 +43,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPayment
                 Id = 99
             };
 
-            var sut = new GetPaymentQueryHandler(_context, _mapper);
+            var sut = new GetPaymentQueryHandler(Context, Mapper);
 
             Assert.ThrowsAsync<NotFoundException>(() =>
                 sut.Handle(query, CancellationToken.None));

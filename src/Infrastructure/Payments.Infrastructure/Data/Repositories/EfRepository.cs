@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Payments.Application.Common.Interfaces;
 using Payments.Domain.Common;
-using Payments.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,44 +11,46 @@ namespace Payments.Infrastructure.Data.Repositories
 {
     public abstract class EfRepository<TEntity, TContext> : IRepository<TEntity>
         where TEntity : BaseEntity, IAggregateRoot
-        where TContext : DbContext
+        where TContext : IApplicationDbContext
     {
         bool disposing;
         private readonly DbContext _dbContext;
 
+        public DbSet<TEntity> Entity => _dbContext.Set<TEntity>();
+
         public EfRepository(TContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext.DbContext;
         }
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Set<TEntity>().FindAsync(id);
+            return await Entity.FindAsync(id);
         }
 
         public virtual Task<TEntity> GetByIdAsync(long id)
         {
-            return _dbContext.Set<TEntity>().SingleOrDefaultAsync(e => e.Id == id);
+            return Entity.SingleOrDefaultAsync(e => e.Id == id);
         }
 
         public virtual Task<List<TEntity>> ListAsync()
         {
-            return _dbContext.Set<TEntity>().ToListAsync();
+            return Entity.ToListAsync();
         }
 
         public virtual async Task<List<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return await _dbContext.Set<TEntity>().AsNoTracking().Where(expression).ToListAsync();
+            return await Entity.AsNoTracking().Where(expression).ToListAsync();
         }
 
         public virtual async Task AddRangeAsync(IEnumerable<TEntity> items)
         {
-            await _dbContext.Set<TEntity>().AddRangeAsync(items);
+            await Entity.AddRangeAsync(items);
         }
 
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
-            await _dbContext.Set<TEntity>().AddAsync(entity);
+            await Entity.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
 
             return entity;
@@ -63,25 +64,25 @@ namespace Payments.Infrastructure.Data.Repositories
 
         public virtual Task DeleteAsync(TEntity entity)
         {
-            _dbContext.Set<TEntity>().Remove(entity);
+            Entity.Remove(entity);
             return _dbContext.SaveChangesAsync();
         }
 
         public virtual async Task DeleteAsync(Guid id)
         {
-            var item = await _dbContext.Set<TEntity>().FindAsync(id);
+            var item = await Entity.FindAsync(id);
             if (item != null)
             {
-                _dbContext.Set<TEntity>().Remove(item);
+                Entity.Remove(item);
             }
         }
 
         public virtual async Task DeleteRangeAsync(IEnumerable<long> ids)
         {
-            var items = await _dbContext.Set<TEntity>().Where(e => ids.Contains(e.Id)).ToListAsync();
+            var items = await Entity.Where(e => ids.Contains(e.Id)).ToListAsync();
             if (items != null && items.Any())
             {
-                _dbContext.Set<TEntity>().RemoveRange(items);
+                Entity.RemoveRange(items);
             }
         }
 

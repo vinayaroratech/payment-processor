@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Data.Repositories;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Payments.Infrastructure.IntegrationTests.Persistence
@@ -17,7 +16,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
             //_paymentDbSetMock.Setup(s => s.FindAsync(It.IsAny<Guid>())).Returns(ValueTask.FromResult(new Payment()));
             //_sut.Setup(s => s.Set<Payment>()).Returns(_paymentDbSetMock.Object);
 
-            _paymentRepository = new EfPaymentRepository(_sut);
+            _paymentRepository = new EfPaymentRepository(_sut, Mapper);
         }
 
         [Test]

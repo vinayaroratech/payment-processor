@@ -1,5 +1,4 @@
 ﻿using IdentityServer4.EntityFramework.Options;
-using MediatR;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -39,6 +38,8 @@ namespace Payments.Infrastructure.Persistence
         public IDbConnection Connection => throw new System.NotImplementedException();
 
         public bool HasChanges => throw new System.NotImplementedException();
+
+        public DbContext DbContext => this;
 
         public async Task BeginTransactionAsync()
         {

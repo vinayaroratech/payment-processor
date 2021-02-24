@@ -1,8 +1,10 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Payments.Application.Common.Interfaces;
 using Payments.Application.Payments.CommandHandlers;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.UnitTests.Common;
+using Payments.Infrastructure.Data.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +12,13 @@ namespace Payments.Application.UnitTests.Payments.Commands.CreatePayment
 {
     public class CreatePaymentCommandTests : CommandTestBase
     {
+        private readonly IPaymentRepository _repository;
+
+        public CreatePaymentCommandTests() : base()
+        {
+            _repository = new EfPaymentRepository(Context, Mapper);
+        }
+
         [Test]
         public async Task Handle_ShouldPersistPayment()
         {
@@ -18,11 +27,11 @@ namespace Payments.Application.UnitTests.Payments.Commands.CreatePayment
                 Name = "Do yet another thing."
             };
 
-            var sut = new CreatePaymentCommandHandler(Context);
+            var sut = new CreatePaymentCommandHandler(_repository);
 
             var result = await sut.Handle(command, CancellationToken.None);
 
-            var entity = Context.Payments.Find(result);
+            var entity = await _repository.GetByIdAsync(result);
 
             entity.Should().NotBeNull();
             entity.Name.Should().Be(command.Name);

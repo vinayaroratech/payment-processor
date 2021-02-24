@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
+using Payments.Application.Common.Interfaces;
 using Payments.Application.Common.Mappings;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using Payments.Application.UnitTests.Common;
-using Payments.Infrastructure.Persistence;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +12,7 @@ namespace Payments.Application.UnitTests.Payments.Queries.GetPaymentsList
 {
     public class GetPaymentsListQueryTests
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IConfigurationProvider _configuration;
         private readonly IMapper _mapper;
 

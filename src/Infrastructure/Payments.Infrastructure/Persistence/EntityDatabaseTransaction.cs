@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 using Payments.Application.Common.Interfaces;
 
 namespace Payments.Infrastructure.Persistence
@@ -15,7 +14,7 @@ namespace Payments.Infrastructure.Persistence
         /// Constructor
         /// </summary>
         /// <param name="context">Database context to apply transaction to</param>
-        public EntityDatabaseTransaction(DbContext context)
+        public EntityDatabaseTransaction(IApplicationDbContext context)
         {
             _transaction = context.Database.BeginTransaction();
         }

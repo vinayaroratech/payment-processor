@@ -35,8 +35,7 @@ namespace Payments.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddScoped<IDomainEventService, DomainEventService>();
-            services.AddTransient<IDatabaseTransaction, EntityDatabaseTransaction>();
-            services.AddScoped<EfPaymentRepository>();
+            services.AddScoped<IPaymentRepository, EfPaymentRepository>();
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options =>

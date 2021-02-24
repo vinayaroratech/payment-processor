@@ -1,14 +1,16 @@
-﻿using Payments.Domain.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using Payments.Domain.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Payments.Application.Common.Interfaces
 {
-    public interface IRepository<TEntity> : IDisposable where TEntity: BaseEntity, IAggregateRoot
+    public interface IRepository<TEntity> : IDisposable where TEntity : BaseEntity, IAggregateRoot
     {
+        DbSet<TEntity> Entity { get; }
+
         Task<TEntity> GetByIdAsync(Guid id);
 
         Task<TEntity> GetByIdAsync(long id);

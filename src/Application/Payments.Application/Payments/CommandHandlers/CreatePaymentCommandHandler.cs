@@ -10,11 +10,11 @@ namespace Payments.Application.Payments.CommandHandlers
 {
     public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, long>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IPaymentRepository _repository;
 
-        public CreatePaymentCommandHandler(IApplicationDbContext context)
+        public CreatePaymentCommandHandler(IPaymentRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<long> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -25,11 +25,10 @@ namespace Payments.Application.Payments.CommandHandlers
                 IsComplete = false
             };
 
-            _context.Payments.Add(entity);
-            
+
             entity.DomainEvents.Add(new PaymentCreatedEvent(entity));
-            
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.AddAsync(entity);
+
             return entity.Id;
         }
     }

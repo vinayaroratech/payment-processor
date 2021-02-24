@@ -1,5 +1,4 @@
 ﻿using IdentityServer4.EntityFramework.Options;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -8,14 +7,13 @@ using Payments.Domain.Common;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Persistence;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Payments.Application.UnitTests.Common
 {
     public static class ApplicationDbContextFactory
     {
-        public static ApplicationDbContext Create()
+        public static IApplicationDbContext Create()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -63,7 +61,7 @@ namespace Payments.Application.UnitTests.Common
             context.SaveChanges();
         }
 
-        public static void Destroy(ApplicationDbContext context)
+        public static void Destroy(IApplicationDbContext context)
         {
             context.Database.EnsureDeleted();
 

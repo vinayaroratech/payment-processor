@@ -1,8 +1,10 @@
-﻿using IdentityServer4.EntityFramework.Options;
+﻿using AutoMapper;
+using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using Payments.Application.Common.Interfaces;
+using Payments.Application.Common.Mappings;
 using Payments.Domain.Common;
 using Payments.Domain.Entities;
 using Payments.Infrastructure.Persistence;
@@ -19,7 +21,9 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
         protected readonly Mock<ICurrentUserService> _currentUserServiceMock;
         protected readonly ApplicationDbContext _sut;
         protected readonly Mock<IDomainEventService> _domainEventServiceMock;
-        
+        protected readonly IConfigurationProvider Configuration;
+        protected readonly IMapper Mapper;
+
         protected BaseTests()
         {
             _dateTime = new DateTime(3001, 1, 1);
@@ -44,6 +48,14 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
                     DeviceFlowCodes = new TableConfiguration("DeviceCodes"),
                     PersistedGrants = new TableConfiguration("PersistedGrants")
                 });
+
+            Configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
+            Mapper = Configuration.CreateMapper();
+
 
             _sut = new ApplicationDbContext(options, operationalStoreOptions, _currentUserServiceMock.Object, _dateTimeMock.Object, _domainEventServiceMock.Object);
 

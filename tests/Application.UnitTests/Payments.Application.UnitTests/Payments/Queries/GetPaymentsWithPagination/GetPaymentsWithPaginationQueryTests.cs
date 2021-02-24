@@ -1,38 +1,30 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
-using Payments.Application.Common.Mappings;
+using Payments.Application.Common.Interfaces;
 using Payments.Application.Common.Models;
 using Payments.Application.Payments.Queries.GetPaymentsList;
 using Payments.Application.Payments.Queries.GetPaymentsWithPagination;
 using Payments.Application.UnitTests.Common;
-using Payments.Infrastructure.Persistence;
+using Payments.Infrastructure.Data.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Payments.Application.UnitTests.Payments.Queries.GetPaymentsWithPagination
 {
-    public class GetPaymentsWithPaginationQueryTests
+    public class GetPaymentsWithPaginationQueryTests : CommandTestBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IConfigurationProvider _configuration;
-        private readonly IMapper _mapper;
+        private readonly IPaymentRepository _repository;
 
-        public GetPaymentsWithPaginationQueryTests()
+        public GetPaymentsWithPaginationQueryTests() : base()
         {
-            _configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
-
-            _context = ApplicationDbContextFactory.Create();
-            _mapper = _configuration.CreateMapper();
+            _repository = new EfPaymentRepository(Context, Mapper);
         }
+
 
         [Test]
         public async Task Handle_ReturnsPaginatedVmAndPaymentsCount()
         {
-            var sut = new GetPaymentsWithPaginationQueryHandler(_context, _mapper);
+            var sut = new GetPaymentsWithPaginationQueryHandler(_repository, Mapper);
 
             var result = await sut.Handle(new GetPaymentsWithPaginationQuery() { SearchText = "i", PageSize = 1 }, CancellationToken.None);
 
