@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Payments.Application.Common;
 using Payments.Application.Common.Models;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.DeletePayment;
@@ -25,7 +26,7 @@ namespace Payments.API.Controllers.v1
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet("pagination")]
-        public async Task<ActionResult<PaginationResponse<PaymentDto>>> GetPaymentsWithPagination([FromQuery]GetPaymentsWithPaginationQuery query)
+        public async Task<ActionResult<PaginationResponse<PaymentDto>>> GetPaymentsWithPagination([FromQuery] GetPaymentsWithPaginationQuery query)
         {
             return await Mediator.Send(query);
         }
@@ -111,6 +112,17 @@ namespace Payments.API.Controllers.v1
             await Mediator.Send(new DeletePaymentCommand() { Id = id });
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Get payment with id
+        /// </summary>
+        /// <param name="qrText"></param>
+        /// <returns></returns>
+        [HttpGet("barcode")]
+        public ActionResult GetQrCode(string qrText)
+        {
+            return File(Barcoder.GeneratorQR(qrText), "image/jpeg");
         }
     }
 }

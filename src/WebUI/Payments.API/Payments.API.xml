@@ -98,6 +98,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.GetQrCode(System.String)">
+            <summary>
+            Get payment with id
+            </summary>
+            <param name="qrText"></param>
+            <returns></returns>
+        </member>
         <member name="T:Payments.API.Program">
             <summary>
             
