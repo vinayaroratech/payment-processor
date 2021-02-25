@@ -6,11 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Payments.Application.Common.Interfaces;
+using Payments.Application.Services.PaymentGateway;
 using Payments.Infrastructure.Data.Repositories;
 using Payments.Infrastructure.Identity;
 using Payments.Infrastructure.Persistence;
 using Payments.Infrastructure.Seed;
 using Payments.Infrastructure.Services;
+using Payments.Infrastructure.Services.PaymentGateway;
 using System.Linq;
 
 namespace Payments.Infrastructure
@@ -36,6 +38,11 @@ namespace Payments.Infrastructure
 
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddScoped<IPaymentRepository, EfPaymentRepository>();
+            services.AddScoped<IPaymentStrategy, PaymentStrategy>();
+            services.AddScoped<IPaymentService, CheapPaymentService>();
+            services.AddScoped<IPaymentService, ExpensivePaymentService>();
+            services.AddScoped<IPaymentService, PremiumPaymentService>();
+
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options =>

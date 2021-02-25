@@ -93,7 +93,6 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
 
             var command = new ProcessPaymentCommand()
             {
-
                 Amount = 1234,
                 CardHolder = "Vinay Arora",
                 CreditCardNumber = "1234567891234567",
@@ -102,8 +101,7 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
             };
 
 
-            FluentActions.Invoking(() => SendAsync(command))
-                      .Should().NotThrow<ValidationException>();
+            var paymentId = await SendAsync(command);
         }
 
         [Test]

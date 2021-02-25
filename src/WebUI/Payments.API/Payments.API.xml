@@ -51,34 +51,41 @@
         </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.GetPaymentsWithPagination(Payments.Application.Payments.Queries.GetPaymentsWithPagination.GetPaymentsWithPaginationQuery)">
             <summary>
-            
+            Get the paginated response
             </summary>
             <param name="query"></param>
             <returns></returns>
         </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.GetAll">
             <summary>
-            
+            Get all payments
             </summary>
             <returns></returns>
         </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.Get(System.Int64)">
             <summary>
-            
+            Get payment with id
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.Create(Payments.Application.Payments.Commands.CreatePayment.CreatePaymentCommand)">
             <summary>
-            
+            Create new payment entity
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payments.API.Controllers.v1.PaymentsController.Process(Payments.Application.Payments.Commands.ProcessPayment.ProcessPaymentCommand)">
+            <summary>
+            Process a payment with a given details
             </summary>
             <param name="command"></param>
             <returns></returns>
         </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.Update(System.Int64,Payments.Application.Payments.Commands.UpdatePayment.UpdatePaymentCommand)">
             <summary>
-            
+            Update existing payment
             </summary>
             <param name="id"></param>
             <param name="command"></param>
@@ -86,7 +93,7 @@
         </member>
         <member name="M:Payments.API.Controllers.v1.PaymentsController.Delete(System.Int64)">
             <summary>
-            
+            Delete existing payment
             </summary>
             <param name="id"></param>
             <returns></returns>

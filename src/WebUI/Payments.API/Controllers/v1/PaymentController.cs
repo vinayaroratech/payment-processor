@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Payments.Application.Common.Models;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.DeletePayment;
+using Payments.Application.Payments.Commands.ProcessPayment;
 using Payments.Application.Payments.Commands.UpdatePayment;
 using Payments.Application.Payments.Queries.GetPayment;
 using Payments.Application.Payments.Queries.GetPaymentsList;
@@ -19,7 +20,7 @@ namespace Payments.API.Controllers.v1
     public class PaymentsController : ApiControllerBase
     {
         /// <summary>
-        /// 
+        /// Get the paginated response
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -30,7 +31,7 @@ namespace Payments.API.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Get all payments
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -40,7 +41,7 @@ namespace Payments.API.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Get payment with id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -51,7 +52,7 @@ namespace Payments.API.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Create new payment entity
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -66,7 +67,22 @@ namespace Payments.API.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Process a payment with a given details
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost("Process")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<long>> Process(ProcessPaymentCommand command)
+        {
+            var id = await Mediator.Send(command);
+
+            return Created(nameof(Get), id);
+        }
+
+        /// <summary>
+        /// Update existing payment
         /// </summary>
         /// <param name="id"></param>
         /// <param name="command"></param>
@@ -85,7 +101,7 @@ namespace Payments.API.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Delete existing payment
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
