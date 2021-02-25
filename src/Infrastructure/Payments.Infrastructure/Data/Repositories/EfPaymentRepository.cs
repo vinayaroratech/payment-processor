@@ -25,8 +25,8 @@ namespace Payments.Infrastructure.Data.Repositories
         {
             PaginatedList<PaymentDto> list = await Entity
                    .AsNoTracking()
-                   .Where(x => x.Name.Contains(request.SearchText))
-                   .OrderBy(x => x.Name)
+                   .Where(x => x.CardHolder.Contains(request.SearchText))
+                   .OrderBy(x => x.CardHolder)
                    .ProjectTo<PaymentDto>(_mapper.ConfigurationProvider)
                    .PaginatedListAsync(request.PageNumber, request.PageSize);
 

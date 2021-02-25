@@ -5,6 +5,7 @@ using Payments.Application.IntegrationTests.NUnitTests;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Commands.DeletePayment;
 using Payments.Domain.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace Payments.Application.IntegrationTests.Payments.Commands
@@ -17,7 +18,11 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
         {
             var command = new CreatePaymentCommand
             {
-                Name = "Do yet another thing for delete."
+                CardHolder = "Do yet another thing for delete.",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             };
 
             var paymentId = await SendAsync(command);

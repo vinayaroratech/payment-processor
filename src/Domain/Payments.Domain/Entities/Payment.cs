@@ -1,13 +1,18 @@
 ﻿using Payments.Domain.Common;
 using Payments.Domain.Events;
 using Payments.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 
 namespace Payments.Domain.Entities
 {
     public class Payment : AuditableEntity, IHasDomainEvent, IAggregateRoot
     {
-        public string Name { get; set; }
+        public string CreditCardNumber { get; set; }
+        public string CardHolder { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public string SecurityCode { get; set; }
+        public decimal Amount { get; set; }
 
         public bool IsComplete { get; set; }
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
@@ -29,7 +34,7 @@ namespace Payments.Domain.Entities
         public override string ToString()
         {
             string status = IsDone ? "Done!" : "Not done.";
-            return $"{Id}: Status: {status} - {Name}";
+            return $"{Id}: Status: {status} - {CardHolder}";
         }
     }
 }

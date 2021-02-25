@@ -24,7 +24,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var command = new CreatePaymentCommand
             {
-                Name = $"Do yet another thing - {System.DateTime.Now.Ticks}."
+                CardHolder = $"Do yet another thing - {System.DateTime.Now.Ticks}."
             };
 
             var content = IntegrationTestHelper.GetRequestContent(command);
@@ -44,7 +44,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var command = new CreatePaymentCommand
             {
-                Name = "This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length."
+                CardHolder = "This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length. This description of this thing will exceed the maximum length."
             };
 
             var content = IntegrationTestHelper.GetRequestContent(command);
@@ -61,7 +61,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
 
             var command = new CreatePaymentCommand
             {
-                Name = "Do this thing."
+                CardHolder = "Do this thing."
             };
 
             var content = IntegrationTestHelper.GetRequestContent(command);

@@ -13,17 +13,18 @@ namespace Payments.Application.Payments.Commands.CreatePayment
         {
             _context = context;
 
-            RuleFor(v => v.Name)
+            RuleFor(v => v.CardHolder)
                 .MaximumLength(200).WithMessage("Name must not exceed 200 characters.")
                 .NotEmpty().WithMessage("Name is required.")
-                .MustAsync(BeUniqueName).WithMessage("The specified name is already exists.");
+                .MustAsync(BeUniqueName).WithMessage("The specified name is already exists.")
+                .OverridePropertyName("Name");
             
         }
 
         public async Task<bool> BeUniqueName(string name, CancellationToken cancellationToken)
         {
             return await _context.Payments
-                .AllAsync(l => l.Name != name);
+                .AllAsync(l => l.CardHolder != name);
         }
     }
 }

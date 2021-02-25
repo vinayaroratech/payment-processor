@@ -1,18 +1,14 @@
 ﻿using MediatR;
 using System;
 
-namespace Payments.Application.Payments.Commands.UpdatePayment
+namespace Payments.Application.Payments.Commands.ProcessPayment
 {
-    public class UpdatePaymentCommand : IRequest<long>
+    public class ProcessPaymentCommand : IRequest<long>
     {
-        public long Id { get; set; }
-
         public string CreditCardNumber { get; set; }
         public string CardHolder { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string SecurityCode { get; set; }
         public decimal Amount { get; set; }
-
-        public bool IsComplete { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Payments.Application.Common.Exceptions;
 using Payments.Application.IntegrationTests.NUnitTests;
 using Payments.Application.Payments.Commands.CreatePayment;
 using Payments.Application.Payments.Queries.GetPayment;
+using System;
 using System.Threading.Tasks;
 
 namespace Payments.Application.IntegrationTests.Payments.Queries
@@ -17,7 +18,11 @@ namespace Payments.Application.IntegrationTests.Payments.Queries
         {
             var paymentId = await SendAsync(new CreatePaymentCommand
             {
-                Name = "Do yet another thing for Get By id."
+                CardHolder = "Do yet another thing for Get By id.",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             });
 
             var query = new GetPaymentQuery

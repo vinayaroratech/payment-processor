@@ -10,9 +10,22 @@ namespace Payments.Infrastructure.Persistence.Configurations
         {
             builder.Ignore(e => e.DomainEvents);
 
-            builder.Property(t => t.Name)
+            builder.Property(t => t.CreditCardNumber)
+                .HasMaxLength(16)
+                .IsRequired();
+
+            builder.Property(t => t.CardHolder)
                 .HasMaxLength(200)
                 .IsRequired();
+
+            builder.Property(t => t.ExpirationDate)
+               .IsRequired();
+
+            builder.Property(t => t.SecurityCode)
+               .HasMaxLength(3);
+
+            builder.Property(t => t.Amount)
+               .IsRequired();
 
             builder
                 .OwnsOne(b => b.Status);

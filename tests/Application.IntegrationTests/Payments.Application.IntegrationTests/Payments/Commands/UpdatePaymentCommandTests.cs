@@ -20,13 +20,21 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
 
             var paymentId = await SendAsync(new CreatePaymentCommand
             {
-                Name = "Do yet another thing for update."
+                CardHolder = "Do yet another thing for update.",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             });
 
             var command = new UpdatePaymentCommand
             {
                 Id = paymentId,
-                Name = "This thing is also done.",
+                CardHolder = "This thing is also done.",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123",
                 IsComplete = true
             };
 
@@ -34,7 +42,7 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
 
             var payment = await FindAsync<Payment>(command.Id);
             payment.Should().NotBeNull();
-            payment.Name.Should().Be(command.Name);
+            payment.CardHolder.Should().Be(command.CardHolder);
             payment.IsComplete.Should().BeTrue();
             payment.LastModifiedBy.Should().NotBeNull();
             payment.LastModifiedBy.Should().Be(userId);
@@ -49,7 +57,7 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
             var command = new UpdatePaymentCommand
             {
                 Id = 99,
-                Name = "This item doesn't exist.",
+                CardHolder = "This item doesn't exist.",
                 IsComplete = false
             };
 
@@ -62,18 +70,30 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
         {
             var paymentId = await SendAsync(new CreatePaymentCommand
             {
-                Name = "New List"
+                CardHolder = "New List",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             });
 
             await SendAsync(new CreatePaymentCommand
             {
-                Name = "This thing is also done"
+                CardHolder = "This thing is also done",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             });
 
             var command = new UpdatePaymentCommand
             {
                 Id = paymentId,
-                Name = "This thing is also done"
+                CardHolder = "This thing is also done",
+                Amount = 200,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             };
 
             FluentActions.Invoking(() =>

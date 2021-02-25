@@ -21,7 +21,11 @@ namespace Payments.Application.Payments.CommandHandlers
         {
             var entity = new Payment
             {
-                Name = request.Name,
+                CardHolder = request.CardHolder,
+                Amount = request.Amount,
+                CreditCardNumber = request.CreditCardNumber,
+                ExpirationDate = request.ExpirationDate,
+                SecurityCode = request.SecurityCode,
                 IsComplete = false
             };
 

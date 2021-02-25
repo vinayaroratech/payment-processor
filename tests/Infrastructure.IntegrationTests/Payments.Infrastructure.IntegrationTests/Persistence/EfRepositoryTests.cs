@@ -25,7 +25,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
             var payment = new Payment
             {
                 Id = 2,
-                Name = "This thing is done.",
+                CardHolder = "This thing is done.",
                 IsComplete = true
             };
 
@@ -42,7 +42,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
             var payment = new Payment
             {
                 Id = id,
-                Name = "This thing is done.",
+                CardHolder = "This thing is done.",
                 IsComplete = false
             };
 
@@ -67,7 +67,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
             var payment = new Payment
             {
                 Id = id,
-                Name = "This thing is done.",
+                CardHolder = "This thing is done.",
                 IsComplete = false
             };
 

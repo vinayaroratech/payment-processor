@@ -24,7 +24,7 @@ namespace Payments.Application.UnitTests.Payments.Commands
         {
             var command = new CreatePaymentCommand
             {
-                Name = "Do yet another thing."
+                CardHolder = "Do yet another thing."
             };
 
             var sut = new CreatePaymentCommandHandler(_repository);
@@ -34,7 +34,7 @@ namespace Payments.Application.UnitTests.Payments.Commands
             var entity = await _repository.GetByIdAsync(result);
 
             entity.Should().NotBeNull();
-            entity.Name.Should().Be(command.Name);
+            entity.CardHolder.Should().Be(command.CardHolder);
             entity.IsComplete.Should().BeFalse();
         }
     }

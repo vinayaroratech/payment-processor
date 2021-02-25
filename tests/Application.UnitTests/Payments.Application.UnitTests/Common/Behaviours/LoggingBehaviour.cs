@@ -32,7 +32,7 @@ namespace Payments.Application.UnitTests.Common.Behaviours
 
             var requestLogger = new RequestLogger<CreatePaymentCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            await requestLogger.Process(new CreatePaymentCommand { Name= "Name Vinay" }, new CancellationToken());
+            await requestLogger.Process(new CreatePaymentCommand { CardHolder= "Name Vinay" }, new CancellationToken());
 
             _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
         }
@@ -42,7 +42,7 @@ namespace Payments.Application.UnitTests.Common.Behaviours
         {
             var requestLogger = new RequestLogger<CreatePaymentCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            await requestLogger.Process(new CreatePaymentCommand { Name = "Another Name" }, new CancellationToken());
+            await requestLogger.Process(new CreatePaymentCommand { CardHolder = "Another Name" }, new CancellationToken());
 
             _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
         }

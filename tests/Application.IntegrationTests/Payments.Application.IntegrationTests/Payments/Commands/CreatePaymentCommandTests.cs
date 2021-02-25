@@ -19,7 +19,11 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
 
             var command = new CreatePaymentCommand
             {
-                Name = "Do yet another thing."
+                CardHolder = "Do yet another thing.",
+                Amount = 100,
+                CreditCardNumber = "1234567812345678",
+                ExpirationDate = DateTime.Now.AddYears(1),
+                SecurityCode = "123"
             };
 
             var paymentId = await SendAsync(command);
@@ -30,7 +34,7 @@ namespace Payments.Application.IntegrationTests.Payments.Commands
             payment.IsComplete.Should().BeFalse();
             payment.Should().NotBeNull();
             payment.Id.Should().Be(paymentId);
-            payment.Name.Should().Be(command.Name);
+            payment.CardHolder.Should().Be(command.CardHolder);
             payment.CreatedBy.Should().Be(userId);
             payment.Created.Should().BeCloseTo(DateTime.Now, 10000);
             payment.LastModifiedBy.Should().BeNull();

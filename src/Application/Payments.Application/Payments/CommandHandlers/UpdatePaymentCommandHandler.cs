@@ -26,7 +26,7 @@ namespace Payments.Application.Payments.CommandHandlers
                 throw new NotFoundException(nameof(Payment), request.Id);
             }
 
-            entity.Name = request.Name;
+            entity.CardHolder = request.CardHolder;
             entity.IsComplete = request.IsComplete;
 
             await _repository.UpdateAsync(entity, cancellationToken).ConfigureAwait(false);

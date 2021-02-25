@@ -52,10 +52,10 @@ namespace Payments.Application.UnitTests.Common
         public static void SeedSampleData(ApplicationDbContext context)
         {
             context.Payments.AddRange(
-                new Payment { Id = 1, Name = "Do this thing." },
-                new Payment { Id = 2, Name = "Do this thing too." },
-                new Payment { Id = 3, Name = "Do many, many things." },
-                new Payment { Id = 4, Name = "This thing is done!", IsComplete = true }
+                new Payment { Id = 1, CardHolder = "Do this thing." },
+                new Payment { Id = 2, CardHolder = "Do this thing too." },
+                new Payment { Id = 3, CardHolder = "Do many, many things." },
+                new Payment { Id = 4, CardHolder = "This thing is done!", IsComplete = true }
             );
 
             context.SaveChanges();

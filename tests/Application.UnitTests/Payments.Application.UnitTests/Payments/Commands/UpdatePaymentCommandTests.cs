@@ -26,7 +26,7 @@ namespace Payments.Application.UnitTests.Payments.Commands
             var command = new UpdatePaymentCommand
             {
                 Id = 1,
-                Name = "This thing is also done.",
+                CardHolder = "This thing is also done.",
                 IsComplete = true
             };
 
@@ -37,7 +37,7 @@ namespace Payments.Application.UnitTests.Payments.Commands
             var entity = await _repository.GetByIdAsync(command.Id).ConfigureAwait(false);
 
             entity.Should().NotBeNull();
-            entity.Name.Should().Be(command.Name);
+            entity.CardHolder.Should().Be(command.CardHolder);
             entity.IsComplete.Should().BeTrue();
         }
 
@@ -47,7 +47,7 @@ namespace Payments.Application.UnitTests.Payments.Commands
             var command = new UpdatePaymentCommand
             {
                 Id = 99,
-                Name = "This item doesn't exist.",
+                CardHolder = "This item doesn't exist.",
                 IsComplete = false
             };
 

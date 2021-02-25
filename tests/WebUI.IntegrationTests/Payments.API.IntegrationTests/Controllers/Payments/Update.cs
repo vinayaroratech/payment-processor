@@ -26,7 +26,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
             var command = new UpdatePaymentCommand
             {
                 Id = Convert.ToInt64(validId),
-                Name = $"Do this thing - {DateTime.Now.Ticks}.",
+                CardHolder = $"Do this thing - {DateTime.Now.Ticks}.",
                 IsComplete = true
             };
 
@@ -45,7 +45,7 @@ namespace Payments.API.IntegrationTests.Controllers.Payments
             var command = new UpdatePaymentCommand
             {
                 Id = Convert.ToInt64(validId),
-                Name = "Do this thing.",
+                CardHolder = "Do this thing.",
                 IsComplete = true
             };
 

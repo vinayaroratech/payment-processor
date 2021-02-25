@@ -62,7 +62,7 @@ namespace Payments.Infrastructure.IntegrationTests.Persistence
             _sut.Payments.Add(new Payment
             {
                 Id = 1,
-                Name = "Do this thing."
+                CardHolder = "Do this thing."
             });
 
             _sut.SaveChanges();
