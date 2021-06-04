@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Vinay Arora",
+  "classifications": [
+    "cleanarch",
+    "clean architecture",
+    "solution",
+    "ddd",
+    "vinay",
+    "solid",
+    "onion",
+    "hexagonal"
+  ],
+  "tags": {
+    "language": "C#"
+  },
+  "identity": "VA.Template.Microservice.CSharp",
+  "name": "VA Microservice",
+  "shortName": "va-ms",
+  "sourceName": "Payments",
+  "preferNameDirectory": true,
+}
